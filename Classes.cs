@@ -172,10 +172,27 @@ enum sizes {NODES,ELEMENTS,DIRICHLET,NEUMANN};
             }
             public void createData(){
                 node_list = new node[sizes[(int)eSizes.NODES]];
+                 for (int i = 0; i < node_list.Length; ++i)
+                    {
+                        node_list[i] = new node();
+                    }
                 element_list = new element[sizes[(int)eSizes.ELEMENTS]];
-                indices_dirich = new int[(int)eSizes.DIRICHLET];
+                  for (int i = 0; i < element_list.Length; ++i)
+                    {
+                        element_list[i] = new element();
+                    }
+                indices_dirich = new int[sizes[(int)eSizes.DIRICHLET]];
+               
                 dirichlet_list = new condition[sizes[(int)eSizes.DIRICHLET]];
+                  for (int i = 0; i < dirichlet_list.Length; ++i)
+                    {
+                        dirichlet_list[i] = new condition();
+                    }
                 neumann_list = new condition[sizes[(int)eSizes.NEUMANN]];
+              for (int i = 0; i < neumann_list.Length; ++i)
+                    {
+                        neumann_list[i] = new condition();
+                    }
             }
             public node[] getNodes(){
                 return node_list;

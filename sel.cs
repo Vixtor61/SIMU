@@ -10,9 +10,9 @@ class sel{
     for(int i=0;i<K[0].Count;i++){
         Console.Write("\t");
         for(int j=0;j<K.Count;j++){
-            Console.Write("\t");
+            Console.Write(K[i][j] + "\t");
         }
-        Console.Write("\t");
+        Console.Write("\n");
     }
 }
 
@@ -27,7 +27,7 @@ public void showKs(List<Matrix> Ks){
 public void showVector(List<float> b){
     Console.Write("\t");
     for(int i=0;i<b.Count;i++){
-        Console.Write("\t");
+        Console.Write($"{b[i]}\t" );
     }
     Console.Write("\t");
 }
@@ -106,6 +106,7 @@ public void calculateLocalA(int i,Matrix A,mesh m){
     A[2][0] = ab_ij(n3.getX(),n4.getX(),n1.getX(),n3.getY(),n4.getY(),n1.getY());
     A[2][1] = ab_ij(n4.getX(),n2.getX(),n1.getX(),n4.getY(),n2.getY(),n1.getY());
     A[2][2] = ab_ij(n2.getX(),n3.getX(),n1.getX(),n2.getY(),n3.getY(),n1.getY());
+ 
 }
 
 public void calculateB(Matrix B){
@@ -141,9 +142,9 @@ public Matrix createLocalK(int element,mesh m){
     calculateB(B);
    math.transpose(A,At);
     math.transpose(B,Bt);
-    
+     showMatrix(A);
     math.productRealMatrix(k*Ve/(D*D),math.productMatrixMatrix(Bt,math.productMatrixMatrix(At,math.productMatrixMatrix(A,B,3,3,4),3,3,4),4,3,4),K);
-
+  //  showMatrix(K);
     return K;
 }
 
