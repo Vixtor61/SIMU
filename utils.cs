@@ -118,12 +118,16 @@ class Utils{
  
             string[] constants = filelines[lineCont++].Split(" ");
              EI= double.Parse( constants[0]) ;
-          
+
+             f.Add(-24);
+             f.Add(-99);
+             f.Add(-12);
+
             
-            constants = filelines[lineCont++].Split(" ");
-            f.Add(double.Parse(constants[0]));
-            f.Add(double.Parse(constants[1]));
-            f.Add(double.Parse(constants[2]));
+            //constants = filelines[lineCont++].Split(" ");
+          //  f.Add(double.Parse(constants[0]));
+           // f.Add(double.Parse(constants[1]));
+            //f.Add(double.Parse(constants[2]));
 
 
 
