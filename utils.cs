@@ -34,7 +34,7 @@ class Utils{
                  
                     int e; float r,rr,rrr;
                  
-                   Console.Write( constants[1]);
+                 //  Console.Write( constants[1]);
                      e = int.Parse(constants[0]);
                     r = float.Parse(constants[1]);
                     rr = float.Parse(constants[2]);
@@ -67,12 +67,12 @@ class Utils{
         }
 
         public void correctConditions(int n,condition[] list,int[] indices){
-            Console.WriteLine(n);
+          //  Console.WriteLine(n);
             Array.ForEach<int>(indices, Console.WriteLine);
-            Console.WriteLine(indices[3]);
+          //  Console.WriteLine(indices[3]);
             for(int i=0;i<n;i++){
 
-                Console.WriteLine(i);
+            //    Console.WriteLine(i);
 
                 indices[i] = list[i].getNode1();
 
@@ -142,11 +142,11 @@ Console.WriteLine($"cont {lineCont} " );
             lineCont = obtenerDatos(filelines,eLines.SINGLELINE,nnodes,eModes.INT_FLOAT_FLOAT_FLOAT,m.getNodes(),lineCont );
             lineCont++;
             Console.WriteLine($"contadorr {lineCont} " );
-            obtenerDatos(filelines,eLines.DOUBLELINE,neltos,eModes.INT_INT_INT_INT_INT,m.getElements(),lineCont);
+            lineCont = obtenerDatos(filelines,eLines.DOUBLELINE,neltos,eModes.INT_INT_INT_INT_INT,m.getElements(),lineCont);
             lineCont++;
-            obtenerDatos(filelines,eLines.DOUBLELINE,ndirich,eModes.INT_FLOAT,m.getDirichlet(),lineCont);
+            lineCont = obtenerDatos(filelines,eLines.DOUBLELINE,ndirich,eModes.INT_FLOAT,m.getDirichlet(),lineCont);
             lineCont++;
-            obtenerDatos(filelines,eLines.DOUBLELINE,nneu,eModes.INT_FLOAT,m.getNeumann(),lineCont);
+            lineCont = obtenerDatos(filelines,eLines.DOUBLELINE,nneu,eModes.INT_FLOAT,m.getNeumann(),lineCont);
             
             
           //  file.close();

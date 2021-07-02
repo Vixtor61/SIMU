@@ -193,6 +193,7 @@ public void assemblyK(element e,Matrix localK,Matrix K){
     int index2 = e.getNode2() - 1;
     int index3 = e.getNode3() - 1;
     int index4 = e.getNode4() - 1;
+  //  Console.WriteLine($"{index1} {index2} {index3} {index4}" );
 
     K[index1][index1] += localK[0][0];
     K[index1][index2] += localK[0][1];
@@ -222,6 +223,7 @@ public void assemblyb(element e,List<float> localb,List<float> b){
     b[index2] += localb[1];
     b[index3] += localb[2];
     b[index4] += localb[3];
+    
 }
 
 public void ensamblaje(mesh m,List<Matrix> localKs,List<List<float>> localbs,Matrix K,List<float> b){
@@ -230,6 +232,8 @@ public void ensamblaje(mesh m,List<Matrix> localKs,List<List<float>> localbs,Mat
         assemblyK(e,localKs[i],K);
         assemblyb(e,localbs[i],b);
     }
+
+   
 }
 
 public void applyNeumann(mesh m,List<float> b){
@@ -240,22 +244,36 @@ public void applyNeumann(mesh m,List<float> b){
 }
 
 public void applyDirichlet(mesh m,Matrix K,List<float> b){
+    Console.WriteLine($"\n SIZE:{m.getSize((int)eSizes.DIRICHLET)}");
+      
     for(int i=0;i<m.getSize((int)eSizes.DIRICHLET);i++){
+        Console.WriteLine(m.getDirichlet()[i].getValue());
+
+
+    }
+    
+   // Console.WriteLine($"\n SIZE:{m.getSize((int)eSizes.DIRICHLET)}");
+    for(int i=0;i<m.getSize((int)eSizes.DIRICHLET);i++){
+         Console.WriteLine($"\n   D {(int)eSizes.DIRICHLET}");
         condition c = m.getCondition(i,(int)eSizes.DIRICHLET);
         int index = c.getNode1()-1;
 
         //K.remove(K.begin()+index);
         //b.remove(b.begin()+index);
-        Console.WriteLine("hi");
-        showMatrix(K);
+     //   Console.WriteLine("hi");
+    //    showMatrix(K);
         K.Remove(K[0+index]);
         b.Remove(b[0+index]);
+
+
+        Console.WriteLine($"\n INDEX {i}  NODE {index}  Count {K.Count}");
+    //     Console.WriteLine(K.Count);
         
-        showMatrix(K);
+       // showMatrix(K);
         for(int row=0;row<K.Count;row++){
             float cell = K[row][index];
-            
-            K[row].Remove(K[row][0+index]);
+         //   Console.WriteLine(cell);
+            K[row].RemoveAt(index);
             b[row] += -1*c.getValue()*cell;
         }
     }
