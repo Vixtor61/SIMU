@@ -4,8 +4,8 @@ namespace polygot
 {
 
 class sel{
-   
-void showMatrix(Matrix K){
+   math math = new math();
+ public void showMatrix(Matrix K){
     
     for(int i=0;i<K[0].Count;i++){
         Console.Write("\t");
@@ -16,7 +16,7 @@ void showMatrix(Matrix K){
     }
 }
 
-void showKs(List<Matrix> Ks){
+public void showKs(List<Matrix> Ks){
     for(int i=0;i<Ks.Count;i++){
         Console.Write( $"K del elemento {i+1}  \n");
         showMatrix(Ks[i]);
@@ -24,7 +24,7 @@ void showKs(List<Matrix> Ks){
     }
 }
 
-void showVector(List<float> b){
+public void showVector(List<float> b){
     Console.Write("\t");
     for(int i=0;i<b.Count;i++){
         Console.Write("\t");
@@ -32,7 +32,7 @@ void showVector(List<float> b){
     Console.Write("\t");
 }
 
-void showbs(List<List<float>> bs){
+public void showbs(List<List<float>> bs){
     for(int i=0;i<bs.Count;i++){
         Console.Write( $"b del elemento {i+1}  \n");
         showVector(bs[i]);
@@ -40,7 +40,7 @@ void showbs(List<List<float>> bs){
     }
 }
 
-float calculateLocalD(int ind,mesh m){
+public float calculateLocalD(int ind,mesh m){
     float D,a,b,c,d,e,f,g,h,i;
 
     element el = m.getElement(ind);
@@ -60,7 +60,7 @@ float calculateLocalD(int ind,mesh m){
     return D;
 }
 
-float calculateLocalVolume(int ind,mesh m){
+public float calculateLocalVolume(int ind,mesh m){
     //Se utiliza la siguiente fórmula:
     //      Dados los 4 puntos vértices del tetrahedro A, B, C, D.
     //      Nos anclamos en A y calculamos los 3 vectores:
@@ -86,11 +86,11 @@ float calculateLocalVolume(int ind,mesh m){
     return V;
 }
 
-float ab_ij(float ai, float aj, float a1, float bi, float bj, float b1){
+public float ab_ij(float ai, float aj, float a1, float bi, float bj, float b1){
     return (ai - a1)*(bj - b1) - (aj - a1)*(bi - b1);
 }
 
-void calculateLocalA(int i,Matrix A,mesh m){
+public void calculateLocalA(int i,Matrix A,mesh m){
     element e = m.getElement(i);
     node n1 = m.getNode(e.getNode1()-1);
     node n2 = m.getNode(e.getNode2()-1);
@@ -108,7 +108,7 @@ void calculateLocalA(int i,Matrix A,mesh m){
     A[2][2] = ab_ij(n2.getX(),n3.getX(),n1.getX(),n2.getY(),n3.getY(),n1.getY());
 }
 
-void calculateB(Matrix B){
+public void calculateB(Matrix B){
     B[0][0] = -1;
 	B[0][1] = 1; 
 	B[0][2] = 0; 
@@ -123,27 +123,31 @@ void calculateB(Matrix B){
 	B[2][3] = 1;
 }
 
-Matrix createLocalK(int element,mesh m){
+public Matrix createLocalK(int element,mesh m){
     // K = (k*Ve/D^2)Bt*At*A*B := K_4x4
     float D,Ve,k = m.getParameter((int)eParameters.THERMAL_CONDUCTIVITY);
-    Matrix K,A,B,Bt,At;
+    Matrix K = new Matrix();
+    Matrix A= new Matrix();
+    Matrix B= new Matrix();
+    Matrix Bt= new Matrix();
+    Matrix At= new Matrix();
 
     D = calculateLocalD(element,m);
     Ve = calculateLocalVolume(element,m);
 
-    zeroes(A,3);
-    zeroes(B,3,4);
+    math.zeroes(A,3);
+    math.zeroes(B,3,4);
     calculateLocalA(element,A,m);
     calculateB(B);
-    transpose(A,At);
-    transpose(B,Bt);
-
-    productRealMatrix(k*Ve/(D*D),productMatrixMatrix(Bt,productMatrixMatrix(At,productMatrixMatrix(A,B,3,3,4),3,3,4),4,3,4),K);
+   math.transpose(A,At);
+    math.transpose(B,Bt);
+    
+    math.productRealMatrix(k*Ve/(D*D),math.productMatrixMatrix(Bt,math.productMatrixMatrix(At,math.productMatrixMatrix(A,B,3,3,4),3,3,4),4,3,4),K);
 
     return K;
 }
 
-float calculateLocalJ(int ind,mesh m){
+public float calculateLocalJ(int ind,mesh m){
     float J,a,b,c,d,e,f,g,h,i;
 
     element el = m.getElement(ind);
@@ -163,27 +167,27 @@ float calculateLocalJ(int ind,mesh m){
     return J;
 }
 
-List<float> createLocalb(int element,mesh m){
-    List<float> b;
+public List<float> createLocalb(int element,mesh m){
+    List<float> b = new List<float>();
 
     float Q = m.getParameter((int)eParameters.HEAT_SOURCE),J,b_i;
     J = calculateLocalJ(element,m);
 
-    b_i = Q*J/24.0;
+    b_i = (float)Q*J/24.0F;
     b.Add(b_i); b.Add(b_i);
     b.Add(b_i); b.Add(b_i);
 
     return b;
 }
 
-void crearSistemasLocales(mesh m,List<Matrix> localKs,List<List<float>> localbs){
-    for(int i=0;i<m.getSize(ELEMENTS);i++){
+public void crearSistemasLocales(mesh m,List<Matrix> localKs,List<List<float>> localbs){
+    for(int i=0;i<m.getSize(  (int)eSizes.ELEMENTS);i++){
         localKs.Add(createLocalK(i,m));
         localbs.Add(createLocalb(i,m));
     }
 }
 
-void assemblyK(element e,Matrix localK,Matrix K){
+public void assemblyK(element e,Matrix localK,Matrix K){
     int index1 = e.getNode1() - 1;
     int index2 = e.getNode2() - 1;
     int index3 = e.getNode3() - 1;
@@ -207,7 +211,7 @@ void assemblyK(element e,Matrix localK,Matrix K){
     K[index4][index4] += localK[3][3];
 }
 
-void assemblyb(element e,List<float> localb,List<float> b){
+public void assemblyb(element e,List<float> localb,List<float> b){
     int index1 = e.getNode1() - 1;
     int index2 = e.getNode2() - 1;
     int index3 = e.getNode3() - 1;
@@ -219,45 +223,47 @@ void assemblyb(element e,List<float> localb,List<float> b){
     b[index4] += localb[3];
 }
 
-void ensamblaje(mesh m,List<Matrix> localKs,List<List<float>> localbs,Matrix K,List<float> b){
-    for(int i=0;i<m.getSize(ELEMENTS);i++){
+public void ensamblaje(mesh m,List<Matrix> localKs,List<List<float>> localbs,Matrix K,List<float> b){
+    for(int i=0;i<m.getSize((int)eSizes.ELEMENTS);i++){
         element e = m.getElement(i);
         assemblyK(e,localKs[i],K);
         assemblyb(e,localbs[i],b);
     }
 }
 
-void applyNeumann(mesh m,List<float> b){
+public void applyNeumann(mesh m,List<float> b){
     for(int i=0;i<m.getSize((int)eSizes.NEUMANN);i++){
         condition c = m.getCondition(i,(int)eSizes.NEUMANN);
         b[c.getNode1()-1] += c.getValue();
     }
 }
 
-void applyDirichlet(mesh m,Matrix K,List<float> b){
+public void applyDirichlet(mesh m,Matrix K,List<float> b){
     for(int i=0;i<m.getSize((int)eSizes.DIRICHLET);i++){
         condition c = m.getCondition(i,(int)eSizes.DIRICHLET);
         int index = c.getNode1()-1;
 
-        K.remove(K.begin()+index);
-        b.remove(b.begin()+index);
+        //K.remove(K.begin()+index);
+        //b.remove(b.begin()+index);
+        K.Remove(K[0+index]);
+        b.Remove(b[0+index]);
 
         for(int row=0;row<K.Count;row++){
             float cell = K[row][index];
             
-            K[row].Remove(K[row].begin()+index);
+            K[row].Remove(K[row][0+index]);
             b[row] += -1*c.getValue()*cell;
         }
     }
 }
 
-void calculate(Matrix K, List<float> b, List<float> T){
+public void calculate(Matrix K, List<float> b, List<float> T){
     Console.WriteLine("Iniciando calculo de respuesta...\n");
-    Matrix Kinv;
+    Matrix Kinv = new Matrix();
       Console.Write("Calculo de la inversa\n");
-    inverseMatrix(K,Kinv);
+    math.inverseMatrix(K,Kinv);
     Console.Write("Caclulo de la inversa\n");
-    productMatrixVector(Kinv,b,T);
+    math.productMatrixVector(Kinv,b,T);
 }
 }
 }
