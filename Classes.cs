@@ -147,13 +147,7 @@ enum eSizes :int {NODES,ELEMENTS,DIRICHLET,NEUMANN};
             private int[] indices_dirich;
             private condition[] dirichlet_list;
             private condition[] neumann_list;
-/*
-enum indicators {NOTHING};
-enum lines {NOLINE,SINGLELINE,DOUBLELINE};
-enum modes {NOMODE,INT_FLOAT,INT_FLOAT_FLOAT_FLOAT,INT_INT_INT_INT_INT};
-enum parameters {THERMAL_CONDUCTIVITY,HEAT_SOURCE};
-enum sizes {NODES,ELEMENTS,DIRICHLET,NEUMANN};
-  */
+
             public	void setParameters(float k,float Q){
                 parameters[(int)eParameters.THERMAL_CONDUCTIVITY]=k;
                 parameters[(int)eParameters.HEAT_SOURCE]=Q;

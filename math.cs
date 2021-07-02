@@ -74,7 +74,7 @@ namespace polygot
             //cout << "Calculando menor ("<<i+1<<","<<j+1<<")...\n";
             
             M.Remove(M[0+i]);
-            //danger
+        
             for(i=0;i<M.Count;i++)
                 M[i].Remove(M[i][0+j]);
         }
