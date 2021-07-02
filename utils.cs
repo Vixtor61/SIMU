@@ -178,8 +178,8 @@ Console.WriteLine($"cont {lineCont} " );
 /*
         public void writeResults(mesh m,List<float> T,string filename){
             String outputfilename;
-            int *dirich_indices = m.getDirichletIndices();
-            condition *dirich = m.getDirichlet();
+            int[] dirich_indices = m.getDirichletIndices();
+            condition[] dirich = m.getDirichlet();
             ofstream file;
 
          //   addExtension(outputfilename,filename,".post.res");
@@ -190,8 +190,8 @@ Console.WriteLine($"cont {lineCont} " );
 
             int Tpos = 0;
             int Dpos = 0;
-            int n = m.getSize(NODES);
-            int nd = m.getSize(DIRICHLET);
+            int n = m.getSize((int)eSizes.NODES);
+            int nd = m.getSize((int)eSizes.DIRICHLET );
             for(int i=0;i<n;i++){
                 if(findIndex(i+1,nd,dirich_indices)){
                     file << i+1 << " " << dirich[Dpos].getValue() << "\n";
@@ -207,7 +207,7 @@ Console.WriteLine($"cont {lineCont} " );
             file.close();
         }
 
-*/
 
+*/
 }
 }

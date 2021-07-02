@@ -246,9 +246,12 @@ public void applyDirichlet(mesh m,Matrix K,List<float> b){
 
         //K.remove(K.begin()+index);
         //b.remove(b.begin()+index);
+        Console.WriteLine("hi");
+        showMatrix(K);
         K.Remove(K[0+index]);
         b.Remove(b[0+index]);
-
+        
+        showMatrix(K);
         for(int row=0;row<K.Count;row++){
             float cell = K[row][index];
             

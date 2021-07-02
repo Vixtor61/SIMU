@@ -42,6 +42,9 @@ namespace polygot
             sel.showMatrix(K);
             math.zeroes(T,b.Count);
             sel.calculate(K,b,T);
+
+            sel.showMatrix(K);
+            sel.showVector(T);
     //showMatrix(K); showVector(b);
    // cout << "******************************\n";
     //cout << K.size() << " - "<<K.at(0).size()<<"\n";
