@@ -60,37 +60,6 @@ public float calculateLocalD(int ind,mesh m){
     return D;
 }
 
-public float calculateLocalVolume(int ind,mesh m){
-    //Se utiliza la siguiente fórmula:
-    //      Dados los 4 puntos vértices del tetrahedro A, B, C, D.
-    //      Nos anclamos en A y calculamos los 3 vectores:
-    //              V1 = B - A
-    //              V2 = C - A
-    //              V3 = D - A
-    //      Luego el volumen es:
-    //              V = (1/6)*det(  [ V1' ; V2' ; V3' ]  )
-    
-    float V,a,b,c,d,e,f,g,h,i;
-    element el = m.getElement(ind);
-    node n1 = m.getNode(el.getNode1()-1);
-    node n2 = m.getNode(el.getNode2()-1);
-    node n3 = m.getNode(el.getNode3()-1);
-    node n4 = m.getNode(el.getNode4()-1);
-
-    a = n2.getX()-n1.getX();b = n2.getY()-n1.getY();c = n2.getZ()-n1.getZ();
-    d = n3.getX()-n1.getX();e = n3.getY()-n1.getY();f = n3.getZ()-n1.getZ();
-    g = n4.getX()-n1.getX();h = n4.getY()-n1.getY();i = n4.getZ()-n1.getZ();
-    //Para el determinante se usa la Regla de Sarrus.
-    V = (float)(1.0/6.0)*(a*e*i+d*h*c+g*b*f-g*e*c-a*h*f-d*b*i);
-
-    return V;
-}
-
-public float ab_ij(float ai, float aj, float a1, float bi, float bj, float b1){
-    return (ai - a1)*(bj - b1) - (aj - a1)*(bi - b1);
-}
-
-
 
 
 public void calculateLocalU(int i,Matrix U,mesh m){
@@ -150,28 +119,26 @@ public void calculateLocalU(int i,Matrix U,mesh m){
     float J= -(2/15)*Math.Pow(c2,2);
 
     float K = -(4/3) * (c1*c2);
+
+    U[0][0] = A;U[0][1] = E;U[0][4] = -F;U[0][6] = -F;U[0][7] = G;U[0][8] = F;U[0][9] = F;
+    U[1][0] = E;U[1][1] = B;U[1][4] = -H;U[1][6] = -H;U[1][7] = I;U[1][8] = H;U[1][9] = H;
+
+
+    U[4][0] = -F;U[4][1] = -H;U[4][4] = C;U[4][6] = J;U[4][7] = -K;U[4][8] = -C;U[4][9] = -J;
+
+    U[6][0] = -F;U[6][1] = -H;U[6][4] = J;U[6][6] = C;U[6][7] = -K;U[6][8] = -J;U[6][9] = -C;
+    U[7][0] = G;U[7][1] = I;U[7][4] = -K;U[7][6] = -K;U[7][7] = D;U[7][8] = K;U[7][9] = K;
+
+    U[8][0] = F;U[8][1] = H;U[8][4] = -C;U[8][6] = -J;U[8][7] = K;U[8][8] = C;U[8][9] = J;
+    U[9][0] = F;U[9][1] = H;U[9][4] = -J;U[9][6] = -C;U[9][7] = K;U[9][8] = J;U[9][9] = C;
+
+
+
+
    
  
 }
-public void calculateLocalA(int i,Matrix A,mesh m){
-    
- 
-}
 
-public void calculateB(Matrix B){
-    B[0][0] = -1;
-	B[0][1] = 1; 
-	B[0][2] = 0; 
-	B[0][3] = 0;
-    B[1][0] = -1; 
-	B[1][1] = 0; 
-	B[1][2] = 1; 
-	B[1][3] = 0;
-    B[2][0] = -1; 
-	B[2][1] = 0; 
-	B[2][2] = 0;
-	B[2][3] = 1;
-}
 
 public Matrix createLocalK(int element,mesh m){
     // K = (k*Ve/D^2)Bt*At*A*B := K_4x4
@@ -179,23 +146,24 @@ public Matrix createLocalK(int element,mesh m){
     Matrix K = new Matrix();
     Matrix A= new Matrix();
     Matrix B= new Matrix();
-    Matrix Bt= new Matrix();
+    Matrix U= new Matrix();
     Matrix At= new Matrix();
 
 
     
 
     D = calculateLocalD(element,m);
-    Ve = calculateLocalVolume(element,m);
+    Ve = 3;
 
-    math.zeroes(A,3);
-    math.zeroes(B,3,4);
-    calculateLocalA(element,A,m);
-    calculateB(B);
-   math.transpose(A,At);
-    math.transpose(B,Bt);
-     showMatrix(A);
-    math.productRealMatrix(EI*Ve/(D*D),math.productMatrixMatrix(Bt,math.productMatrixMatrix(At,math.productMatrixMatrix(A,B,3,3,4),3,3,4),4,3,4),K);
+    //math.zeroes(A,3);
+    math.zeroes(U,10,10);
+    calculateLocalU(U);
+   // calculateLocalA(element,A,m);
+   // calculateB(B);
+  // math.transpose(A,At);
+   // math.transpose(B,Bt);
+    // showMatrix(A);
+   // math.productRealMatrix(EI*Ve/(D*D),math.productMatrixMatrix(Bt,math.productMatrixMatrix(At,math.productMatrixMatrix(A,B,3,3,4),3,3,4),4,3,4),K);
  
     return K;
 }
