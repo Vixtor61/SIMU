@@ -137,7 +137,19 @@ public void calculateLocalU(int i,Matrix U,mesh m){
     D =  D -  (c1/(96* Math.Pow(c2,3))) * Math.Pow(4*c2 - 8* c1 ,4);
     D =  D +  ((2*c1 - 1)/(192* Math.Pow(c2,3))) * Math.Pow(-8*c1,4);
 
+    float E = (8/3)*Math.Pow(c1,2) + (1/30) * Math.Pow(c2,2);
 
+    float F = (2/3)*(c1*c2) + (1/30) * Math.Pow(c2,2);
+
+    float G = -(16/3)*Math.Pow(c1,2) - (4/3) * (c1*c2) - (2/15)* Math.Pow(c2,2);
+
+    float H = (2/3) * (c1*c2) + (1/30)* Math.Pow(c2,2);
+
+    float I = -(16/3)*Math.Pow(c1,2)  - (2/3)* Math.Pow(c2,2);
+
+    float J= -(2/15)*Math.Pow(c2,2);
+
+    float K = -(4/3) * (c1*c2);
    
  
 }
