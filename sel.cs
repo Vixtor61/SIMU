@@ -62,7 +62,7 @@ public double calculateLocalD(int ind,mesh m){
 
 
 
-public void calculateLocalU(int i,Matrix U,mesh m){
+public void calculateLocalU(int i,Matrix U,mesh m,float J){
     
   
     element e = m.getElement(i);
@@ -139,30 +139,22 @@ public void calculateLocalU(int i,Matrix U,mesh m){
 }
 
 
-public Matrix createLocalK(int element,mesh m){
+public Matrix createLocalK(int element,mesh m,float J){
     // K = (k*Ve/D^2)Bt*At*A*B := K_4x4
-    double D,Ve,EI = m.getEI();
+    double EI = m.getEI();
     Matrix K = new Matrix();
     Matrix U= new Matrix();
 
-
-
-    
-
-  
-    
 
     //math.zeroes(A,3);
     math.zeroes(U,10,10);
     calculateLocalU(element,U,m);
     fillLocalK(K,U);
+    math.productRealMatrix(J*EI,K,K);
 
 
-   // calculateLocalA(element,A,m);
-   // calculateB(B);
-  // math.transpose(A,At);
-   // math.transpose(B,Bt);
-    // showMatrix(A);
+
+   
    // math.productRealMatrix(EI*Ve/(D*D),math.productMatrixMatrix(Bt,math.productMatrixMatrix(At,math.productMatrixMatrix(A,B,3,3,4),3,3,4),4,3,4),K);
  
     return K;
@@ -204,22 +196,66 @@ public double calculateLocalJ(int ind,mesh m){
     return J;
 }
 
-public List<double> createLocalb(int element,mesh m){
+public List<double> createLocalb(int element,mesh m,double J){
     List<double> b = new List<double>();
-    List<double> f = new List<double>();
-    f = m.getF();
-    double J,b_i;
-    J = calculateLocalJ(element,m);
+    Matrix M1 = new Matrix();
+    math.zeroes(b,30);
+    math.zeroes(M1,30,3);
+    List<double> t = new List<double>();
+    
+    
 // Q 4.5
+	M[0,0] = 59;M[0,1] = 59;M[0,2] = 59;
+	M[1,0] = -1;M[1,1] = -1;M[1,2] = -1;
+	M[2,0] = -1;M[2,1] = -1;M[2,2] = -1;
+	M[3,0] = -1;M[3,1] = -1;M[3,2] = -1;
+	M[4,0] =  4;M[4,1] =  4;M[4,2] =  4;
+	M[5,0] =  4;M[5,1] =  4;M[5,2] =  4;
+	M[6,0] =  4;M[6,1] =  4;M[6,2] =  4;
+	M[7,0] =  4;M[7,1] =  4;M[7,2] =  4;
+	M[8,0] =  4;M[8,1] =  4;M[8,2] =  4;
+	M[9,0] =  4;M[9,1] =  4;M[9,2] =  4;
+
+	M[10,0] = 59;M[10,1] = 59;M[10,2] = 59;
+	M[11,0] = -1;M[11,1] = -1;M[11,2] = -1;
+	M[12,0] = -1;M[12,1] = -1;M[12,2] = -1;
+	M[13,0] = -1;M[13,1] = -1;M[13,2] = -1;
+	M[14,0] =  4;M[14,1] =  4;M[14,2] =  4;
+	M[15,0] =  4;M[15,1] =  4;M[15,2] =  4;
+	M[16,0] =  4;M[16,1] =  4;M[16,2] =  4;
+	M[17,0] =  4;M[17,1] =  4;M[17,2] =  4;
+	M[18,0] =  4;M[18,1] =  4;M[18,2] =  4;
+	M[19,0] =  4;M[19,1] =  4;M[19,2] =  4;
+
+	M[20,0] = 59;M[20,1] = 59;M[20,2] = 59;
+	M[21,0] = -1;M[21,1] = -1;M[21,2] = -1;
+	M[22,0] = -1;M[22,1] = -1;M[22,2] = -1;
+	M[23,0] = -1;M[23,1] = -1;M[23,2] = -1;
+	M[24,0] =  4;M[24,1] =  4;M[24,2] =  4;
+	M[25,0] =  4;M[25,1] =  4;M[25,2] =  4;
+	M[26,0] =  4;M[26,1] =  4;M[26,2] =  4;
+	M[27,0] =  4;M[27,1] =  4;M[27,2] =  4;
+	M[28,0] =  4;M[28,1] =  4;M[28,2] =  4;
+	M[29,0] =  4;M[29,1] =  4;M[29,2] =  4;
+	
+	math.productMatrixVector(M,m.getF(),b);
+	
+
+
+
     b_i = (double)4.5*J/24.0F;
     b.Add(b_i); b.Add(b_i);
     b.Add(b_i); b.Add(b_i);
+
+
+    
 
     return b;
 }
 
 public void crearSistemasLocales(mesh m,List<Matrix> localKs,List<List<double>> localbs){
     for(int i=0;i<m.getSize(  (int)eSizes.ELEMENTS);i++){
+        J = calculateLocalJ(i,m);
         localKs.Add(createLocalK(i,m));
         localbs.Add(createLocalb(i,m));
     }
