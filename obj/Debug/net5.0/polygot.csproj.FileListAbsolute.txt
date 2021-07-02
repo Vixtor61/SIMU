@@ -1,0 +1,16 @@
+/home/victor/Documents/code/uca/tsc012021/polygot/obj/Debug/net5.0/polygot.csprojAssemblyReference.cache
+/home/victor/Documents/code/uca/tsc012021/polygot/obj/Debug/net5.0/polygot.GeneratedMSBuildEditorConfig.editorconfig
+/home/victor/Documents/code/uca/tsc012021/polygot/obj/Debug/net5.0/polygot.AssemblyInfoInputs.cache
+/home/victor/Documents/code/uca/tsc012021/polygot/obj/Debug/net5.0/polygot.AssemblyInfo.cs
+/home/victor/Documents/code/uca/tsc012021/polygot/obj/Debug/net5.0/polygot.csproj.CoreCompileInputs.cache
+/home/victor/Documents/code/uca/tsc012021/polygot/bin/Debug/net5.0/polygot
+/home/victor/Documents/code/uca/tsc012021/polygot/bin/Debug/net5.0/polygot.deps.json
+/home/victor/Documents/code/uca/tsc012021/polygot/bin/Debug/net5.0/polygot.runtimeconfig.json
+/home/victor/Documents/code/uca/tsc012021/polygot/bin/Debug/net5.0/polygot.runtimeconfig.dev.json
+/home/victor/Documents/code/uca/tsc012021/polygot/bin/Debug/net5.0/polygot.dll
+/home/victor/Documents/code/uca/tsc012021/polygot/bin/Debug/net5.0/ref/polygot.dll
+/home/victor/Documents/code/uca/tsc012021/polygot/bin/Debug/net5.0/polygot.pdb
+/home/victor/Documents/code/uca/tsc012021/polygot/obj/Debug/net5.0/polygot.dll
+/home/victor/Documents/code/uca/tsc012021/polygot/obj/Debug/net5.0/ref/polygot.dll
+/home/victor/Documents/code/uca/tsc012021/polygot/obj/Debug/net5.0/polygot.pdb
+/home/victor/Documents/code/uca/tsc012021/polygot/obj/Debug/net5.0/polygot.genruntimeconfig.cache
