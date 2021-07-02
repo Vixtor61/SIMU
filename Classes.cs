@@ -18,6 +18,15 @@ enum eSizes :int {NODES,ELEMENTS,DIRICHLET,NEUMANN};
 		protected    int node2;
 		protected    int node3;
 		protected    int node4;
+
+        protected    int node5;
+        protected    int node6;
+        protected    int node7;
+        protected    int node8;
+        protected    int node9;
+        protected    int node10;
+        
+        
 		protected    float value;
 
         public void setId(int identifier) {
@@ -51,6 +60,25 @@ enum eSizes :int {NODES,ELEMENTS,DIRICHLET,NEUMANN};
 
         public void setNode4(int node_4) {
             node4 = node_4;
+        }
+           public void setNode5(int node_5) {
+            node5 = node_5;
+        }
+           public void setNode6(int node_6) {
+            node6 = node_6;
+        }
+           public void setNode7(int node_7) {
+            node7 = node_7;
+        }
+           public void setNode8(int node_8) {
+            node8 = node_8;
+        }
+           public void setNode9(int node_9) {
+            node9 = node_9;
+        }
+
+           public void setNode10(int node_10) {
+            node10 = node_10;
         }
 
         public void setValue(float value_to_assign) {
@@ -88,12 +116,31 @@ enum eSizes :int {NODES,ELEMENTS,DIRICHLET,NEUMANN};
         public int getNode4() {
             return node4;
         }
+              public int getNode5() {
+            return node5;
+        }
+              public int getNode6() {
+            return node6;
+        }
+              public int getNode7() {
+            return node7;
+        }
+              public int getNode8() {
+            return node8;
+        }
+              public int getNode9() {
+            return node9;
+        }
+
+              public int getNode10() {
+            return node10;
+        }
 
         public float getValue() {
             return value;
         }
-
-        public virtual void setValues(int a,float b,float c,float d,int e,int f,int g, int h, float i){
+                                                                                             //int i node 5,node 6, node 7 ,node 8, node 9, node 10       
+        public virtual void setValues(int a,float b,float c,float d,int e,int f,int g, int h, int i,int j, int k, int l,int m, int n,float o ){
 			id=0;
 			x =0;
 			y=0;
@@ -101,14 +148,21 @@ enum eSizes :int {NODES,ELEMENTS,DIRICHLET,NEUMANN};
 			node1 = 0;
 			node2= 0;
 			node3= 0;
-		}
+            	node4= 0;
+                	node5= 0;
+                    	node6= 0;
+                        	node7= 0;
+			node8= 0;
+            	node9= 0;
+                	node10= 0;
+        }
 
 };
 
 
     class node: item{
 
-        public override void setValues(int a,float b,float c,float d,int e,int f,int g, int h, float i){
+        public override void setValues(int a,float b,float c,float d,int e,int f,int g, int h, int i,int j, int k, int l,int m, int n,float o ){
                 id = a;
                 x = b;
                 y = c;
@@ -119,7 +173,7 @@ enum eSizes :int {NODES,ELEMENTS,DIRICHLET,NEUMANN};
 
     class element: item{
 
-        public override void setValues(int a,float b,float c,float d,int e,int f,int g, int h, float i){
+        public override void setValues(int a,float b,float c,float d,int e,int f,int g, int h, int i,int j, int k, int l,int m, int n,float o ){
                 id = a;
                 node1 = e;
                 node2 = f;
@@ -132,15 +186,16 @@ enum eSizes :int {NODES,ELEMENTS,DIRICHLET,NEUMANN};
     class condition: item{
 
 
-        public override void setValues(int a,float b,float c,float d,int e,int f,int g, int h, float i){
+        public override void setValues(int a,float b,float c,float d,int e,int f,int g, int h, int i,int j, int k, int l,int m, int n,float o ){
                 node1 = e;
-                value = i;
+                value = o;
             }
 
     };
     class mesh{
             private float[] parameters = new float[2];
-
+            private float EI;
+            private List<float> f = new List<float>();
             private int[] sizes = new int[4];
             private node[] node_list;
             private element[] element_list;
@@ -148,9 +203,14 @@ enum eSizes :int {NODES,ELEMENTS,DIRICHLET,NEUMANN};
             private condition[] dirichlet_list;
             private condition[] neumann_list;
 
-            public	void setParameters(float k,float Q){
-                parameters[(int)eParameters.THERMAL_CONDUCTIVITY]=k;
-                parameters[(int)eParameters.HEAT_SOURCE]=Q;
+            public	void setParameters(float EI,List<float> f){
+                parameters[(int)eParameters.THERMAL_CONDUCTIVITY]=EI;
+                parameters[(int)eParameters.HEAT_SOURCE]=f;
+            }
+
+            public	void setParameters(float EI,List<float> f){
+                this.EI =EI;
+                this.f = f;
             }
             public	void setSizes(int nnodes,int neltos,int ndirich,int nneu){
                 sizes[(int)eSizes.NODES] = nnodes;
@@ -163,6 +223,13 @@ enum eSizes :int {NODES,ELEMENTS,DIRICHLET,NEUMANN};
             }
             public float getParameter(int p){
                 return parameters[p];
+            }
+
+              public float getEI(){
+                return EI;
+            }
+              public List<float> getF(){
+                return f;
             }
             public void createData(){
                 node_list = new node[sizes[(int)eSizes.NODES]];

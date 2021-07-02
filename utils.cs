@@ -21,7 +21,9 @@ class Utils{
                      
                     e0 = int.Parse(constants[0]);
                     r0 = float.Parse(constants[1]);
-                    item_list[i].setValues((int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,e0,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,r0);
+                    item_list[i].setValues((int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    e0,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    r0);
                     break;
                 case eModes.INT_FLOAT_FLOAT_FLOAT:
      
@@ -35,22 +37,32 @@ class Utils{
                     rr = float.Parse(constants[2]);
                     rrr = float.Parse(constants[3]);
 
-                    item_list[i].setValues(e,r,rr,rrr,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(float)eIndicator.NOTHING);
+                    item_list[i].setValues(e,r,rr,rrr,
+                    (int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    (float)eIndicator.NOTHING);
                     break;
                 case eModes.INT_INT_INT_INT_INT:
                     constants = filelines[lineCont++].Split(" ");
-                    int e1,e2, e3,e4,e5;
+                    int e1,e2, e3,e4,e5,e6,e7,e8,e9,e10,e11;
                  
                     e1 = int.Parse(constants[0]);
                     e2 = int.Parse(constants[1]);
                     e3 = int.Parse(constants[2]);
                     e4 = int.Parse(constants[3]);
                     e5 = int.Parse(constants[4]);
+                    e6 = int.Parse(constants[5]);
+                    e7 = int.Parse(constants[6]);
+                    e8 = int.Parse(constants[7]);
+                    e9 = int.Parse(constants[8]);
+                    e10 = int.Parse(constants[9]);
+                    e11 = int.Parse(constants[10]);
                     
                     
                     //int e1,e2,e3,e4,e5;
                     //file >> e1 >> e2 >> e3 >> e4 >> e5;
-                    item_list[i].setValues(e1,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,e2,e3,e4,e5,(int)eIndicator.NOTHING);
+                    item_list[i].setValues(e1,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,
+                    (float)eIndicator.NOTHING);
                     break;
                 }
             }
@@ -99,16 +111,19 @@ class Utils{
        
 
             int lineCont = 0;
-            float k,Q;
+            float EI,Q;
+            List<float> f = new List<float>() ;
             int nnodes,neltos,ndirich,nneu;
 
  
             string[] constants = filelines[lineCont++].Split(" ");
-  
-            k = float.Parse( constants[0]) ;
-            Q = float.Parse( constants[1] );
-
+             EI= float.Parse( constants[0]) ;
           
+            
+            constants = filelines[lineCont++].Split(" ");
+            f.Add(float.Parse(constants[0]));
+            f.Add(float.Parse(constants[1]));
+            f.Add(float.Parse(constants[2]));
 
 
 
@@ -120,7 +135,7 @@ class Utils{
             
             
 
-            m.setParameters(k,Q);
+            m.setParameters(EI,f);
             m.setSizes(nnodes,neltos,ndirich,nneu);
             m.createData();
 

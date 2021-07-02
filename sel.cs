@@ -90,22 +90,59 @@ public float ab_ij(float ai, float aj, float a1, float bi, float bj, float b1){
     return (ai - a1)*(bj - b1) - (aj - a1)*(bi - b1);
 }
 
-public void calculateLocalA(int i,Matrix A,mesh m){
+
+
+
+public void calculateLocalU(int i,Matrix U,mesh m){
+    
+  
     element e = m.getElement(i);
-    node n1 = m.getNode(e.getNode1()-1);
+    //calculate c
+     node n1 = m.getNode(e.getNode1()-1);
     node n2 = m.getNode(e.getNode2()-1);
     node n3 = m.getNode(e.getNode3()-1);
     node n4 = m.getNode(e.getNode4()-1);
+     node n5 = m.getNode(e.getNode5()-1);
+    node n6= m.getNode(e.getNode6()-1);
+    node n7 = m.getNode(e.getNode7()-1);
+    node n8 = m.getNode(e.getNode8()-1);
+     node n9 = m.getNode(e.getNode9()-1);
+    node n10 = m.getNode(e.getNode10()-1);
 
-    A[0][0] = ab_ij(n3.getY(),n4.getY(),n1.getY(),n3.getZ(),n4.getZ(),n1.getZ());
-    A[0][1] = ab_ij(n4.getY(),n2.getY(),n1.getY(),n4.getZ(),n2.getZ(),n1.getZ());
-    A[0][2] = ab_ij(n2.getY(),n3.getY(),n1.getY(),n2.getZ(),n3.getZ(),n1.getZ());
-    A[1][0] = ab_ij(n4.getX(),n3.getX(),n1.getX(),n4.getZ(),n3.getZ(),n1.getZ());
-    A[1][1] = ab_ij(n2.getX(),n4.getX(),n1.getX(),n2.getZ(),n4.getZ(),n1.getZ());
-    A[1][2] = ab_ij(n3.getX(),n2.getX(),n1.getX(),n3.getZ(),n2.getZ(),n1.getZ());
-    A[2][0] = ab_ij(n3.getX(),n4.getX(),n1.getX(),n3.getY(),n4.getY(),n1.getY());
-    A[2][1] = ab_ij(n4.getX(),n2.getX(),n1.getX(),n4.getY(),n2.getY(),n1.getY());
-    A[2][2] = ab_ij(n2.getX(),n3.getX(),n1.getX(),n2.getY(),n3.getY(),n1.getY());
+    float c1 = 1/ Math.Pow(n2.getX()  - n1.getX(), 2 );
+    float c2 =  1/ (n2.getX()  - n1.getX() );
+    c2 = c2* ( 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX());
+
+    //A
+    float A = -(1/(192* Math.Pow(c2,2))) * Math.Pow(4*c1 - c2 ,4);
+    A =  A -  (1/(24*c2) ) * Math.Pow(4*c1 - c2 ,3);
+    A =  A -  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1  - c2,5);
+    A =  A +  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1 + 3* c2 ,5);
+
+    //B
+    float B = -(1/(192* Math.Pow(c2,2))) * Math.Pow(4*c1 + c2 ,4);
+    B =  B +  (1/(24*c2) ) * Math.Pow(4*c1 + c2 ,3);
+    B =  B +  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1  + c2,5);
+    B =  B -  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1 - 3* c2 ,5);
+
+    //C
+    float C =  (4 / 15) *  Math.Pow (c2,2);
+
+    //D
+    float D = (1/(192* Math.Pow(c2,2))) * Math.Pow(4*c2 - c1 ,4);
+    D =  D -  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c2 - c1,5);
+    D =  D +  (1/(7680* Math.Pow(c2,3))) * Math.Pow(4*c2  + 8* c1,5);
+    D =  D -  (1/(7680* Math.Pow(c2,3))) * Math.Pow(4*c2  - 8* c1,5);
+    D =  D + (1/(768* Math.Pow(c2,3))) * Math.Pow(-8*c1  ,5);
+    D =  D -  (c1/(96* Math.Pow(c2,3))) * Math.Pow(4*c2 - 8* c1 ,4);
+    D =  D +  ((2*c1 - 1)/(192* Math.Pow(c2,3))) * Math.Pow(-8*c1,4);
+
+
+   
+ 
+}
+public void calculateLocalA(int i,Matrix A,mesh m){
+    
  
 }
 
@@ -126,12 +163,15 @@ public void calculateB(Matrix B){
 
 public Matrix createLocalK(int element,mesh m){
     // K = (k*Ve/D^2)Bt*At*A*B := K_4x4
-    float D,Ve,k = m.getParameter((int)eParameters.THERMAL_CONDUCTIVITY);
+    float D,Ve,EI = m.getEI();
     Matrix K = new Matrix();
     Matrix A= new Matrix();
     Matrix B= new Matrix();
     Matrix Bt= new Matrix();
     Matrix At= new Matrix();
+
+
+    
 
     D = calculateLocalD(element,m);
     Ve = calculateLocalVolume(element,m);
@@ -143,7 +183,7 @@ public Matrix createLocalK(int element,mesh m){
    math.transpose(A,At);
     math.transpose(B,Bt);
      showMatrix(A);
-    math.productRealMatrix(k*Ve/(D*D),math.productMatrixMatrix(Bt,math.productMatrixMatrix(At,math.productMatrixMatrix(A,B,3,3,4),3,3,4),4,3,4),K);
+    math.productRealMatrix(EI*Ve/(D*D),math.productMatrixMatrix(Bt,math.productMatrixMatrix(At,math.productMatrixMatrix(A,B,3,3,4),3,3,4),4,3,4),K);
  
     return K;
 }
@@ -170,11 +210,12 @@ public float calculateLocalJ(int ind,mesh m){
 
 public List<float> createLocalb(int element,mesh m){
     List<float> b = new List<float>();
-
-    float Q = m.getParameter((int)eParameters.HEAT_SOURCE),J,b_i;
+    List<float> f = new List<float>();
+    f = m.getF();
+    float J,b_i;
     J = calculateLocalJ(element,m);
-
-    b_i = (float)Q*J/24.0F;
+// Q 4.5
+    b_i = (float)4.5*J/24.0F;
     b.Add(b_i); b.Add(b_i);
     b.Add(b_i); b.Add(b_i);
 
