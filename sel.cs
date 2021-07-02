@@ -24,7 +24,7 @@ public void showKs(List<Matrix> Ks){
     }
 }
 
-public void showVector(List<float> b){
+public void showVector(List<double> b){
     Console.Write("\t");
     for(int i=0;i<b.Count;i++){
         Console.Write($"{b[i]}\t" );
@@ -32,7 +32,7 @@ public void showVector(List<float> b){
     Console.Write("\t");
 }
 
-public void showbs(List<List<float>> bs){
+public void showbs(List<List<double>> bs){
     for(int i=0;i<bs.Count;i++){
         Console.Write( $"b del elemento {i+1}  \n");
         showVector(bs[i]);
@@ -40,8 +40,8 @@ public void showbs(List<List<float>> bs){
     }
 }
 
-public float calculateLocalD(int ind,mesh m){
-    float D,a,b,c,d,e,f,g,h,i;
+public double calculateLocalD(int ind,mesh m){
+    double D,a,b,c,d,e,f,g,h,i;
 
     element el = m.getElement(ind);
 
@@ -78,47 +78,46 @@ public void calculateLocalU(int i,Matrix U,mesh m){
      node n9 = m.getNode(e.getNode9()-1);
     node n10 = m.getNode(e.getNode10()-1);
 
-    float c1 = 1/ Math.Pow(n2.getX()  - n1.getX(), 2 );
-    float c2 =  1/ (n2.getX()  - n1.getX() );
-    c2 = c2* ( 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX());
+    double c1 =	 1/ Math.Pow(n2.getX()  - n1.getX(), 2 );
+    double c2 = 	 1/ (n2.getX()  - n1.getX() );
+    c2 = 		 c2* ( 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX());
 
     //A
-    float A = -(1/(192* Math.Pow(c2,2))) * Math.Pow(4*c1 - c2 ,4);
-    A =  A -  (1/(24*c2) ) * Math.Pow(4*c1 - c2 ,3);
-    A =  A -  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1  - c2,5);
-    A =  A +  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1 + 3* c2 ,5);
+    double A = 	 -(1/(192* Math.Pow(c2,2))) * Math.Pow(4*c1 - c2 ,4);
+    A =  		 A -  (1/(24*c2) ) * Math.Pow(4*c1 - c2 ,3);
+    A =  		 A -  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1  - c2,5);
+    A =  		 A +  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1 + 3* c2 ,5);
 
-    //B
-    float B = -(1/(192* Math.Pow(c2,2))) * Math.Pow(4*c1 + c2 ,4);
-    B =  B +  (1/(24*c2) ) * Math.Pow(4*c1 + c2 ,3);
-    B =  B +  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1  + c2,5);
-    B =  B -  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1 - 3* c2 ,5);
+    double B = 				-(1/(192* Math.Pow(c2,2))) * Math.Pow(4*c1 + c2 ,4);
+    B =  					B +  (1/(24*c2) ) * Math.Pow(4*c1 + c2 ,3);
+    B =  					B +  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1  + c2,5);
+    B =  					B -  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1 - 3* c2 ,5);
 
     //C
-    float C =  (4 / 15) *  Math.Pow (c2,2);
+    double C = (double) (4 / 15) *  Math.Pow (c2,2);
 
     //D
-    float D = (1/(192* Math.Pow(c2,2))) * Math.Pow(4*c2 - c1 ,4);
-    D =  D -  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c2 - c1,5);
-    D =  D +  (1/(7680* Math.Pow(c2,3))) * Math.Pow(4*c2  + 8* c1,5);
-    D =  D -  (1/(7680* Math.Pow(c2,3))) * Math.Pow(4*c2  - 8* c1,5);
-    D =  D + (1/(768* Math.Pow(c2,3))) * Math.Pow(-8*c1  ,5);
-    D =  D -  (c1/(96* Math.Pow(c2,3))) * Math.Pow(4*c2 - 8* c1 ,4);
-    D =  D +  ((2*c1 - 1)/(192* Math.Pow(c2,3))) * Math.Pow(-8*c1,4);
+    double D = 			(1/(192* Math.Pow(c2,2))) * Math.Pow(4*c2 - c1 ,4);
+    D = 				D -  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c2 - c1,5);
+    D = 				D +  (1/(7680* Math.Pow(c2,3))) * Math.Pow(4*c2  + 8* c1,5);
+    D = 				D -  (1/(7680* Math.Pow(c2,3))) * Math.Pow(4*c2  - 8* c1,5);
+    D = 			 	D + (1/(768* Math.Pow(c2,3))) * Math.Pow(-8*c1  ,5);
+    D = 				D -  (c1/(96* Math.Pow(c2,3))) * Math.Pow(4*c2 - 8* c1 ,4);
+    D = 			 	D +  ((2*c1 - 1)/(192* Math.Pow(c2,3))) * Math.Pow(-8*c1,4);
 
-    float E = (8/3)*Math.Pow(c1,2) + (1/30) * Math.Pow(c2,2);
+    double E =  (8/3)*Math.Pow(c1,2) + (1/30) * Math.Pow(c2,2);
 
-    float F = (2/3)*(c1*c2) + (1/30) * Math.Pow(c2,2);
+    double F =  (2/3)*(c1*c2) + (1/30) * Math.Pow(c2,2);
 
-    float G = -(16/3)*Math.Pow(c1,2) - (4/3) * (c1*c2) - (2/15)* Math.Pow(c2,2);
+    double G =  -(16/3)*Math.Pow(c1,2) - (4/3) * (c1*c2) - (2/15)* Math.Pow(c2,2);
 
-    float H = (2/3) * (c1*c2) + (1/30)* Math.Pow(c2,2);
+    double H =  (2/3) * (c1*c2) + (1/30)* Math.Pow(c2,2);
 
-    float I = -(16/3)*Math.Pow(c1,2)  - (2/3)* Math.Pow(c2,2);
+    double I =  -(16/3)*Math.Pow(c1,2)  - (2/3)* Math.Pow(c2,2);
 
-    float J= -(2/15)*Math.Pow(c2,2);
+    double J=  -(2/15)*Math.Pow(c2,2);
 
-    float K = -(4/3) * (c1*c2);
+    double K =  -(4/3) * (c1*c2);
 
     U[0][0] = A;U[0][1] = E;U[0][4] = -F;U[0][6] = -F;U[0][7] = G;U[0][8] = F;U[0][9] = F;
     U[1][0] = E;U[1][1] = B;U[1][4] = -H;U[1][6] = -H;U[1][7] = I;U[1][8] = H;U[1][9] = H;
@@ -142,7 +141,7 @@ public void calculateLocalU(int i,Matrix U,mesh m){
 
 public Matrix createLocalK(int element,mesh m){
     // K = (k*Ve/D^2)Bt*At*A*B := K_4x4
-    float D,Ve,EI = m.getEI();
+    double D,Ve,EI = m.getEI();
     Matrix K = new Matrix();
     Matrix U= new Matrix();
 
@@ -155,7 +154,7 @@ public Matrix createLocalK(int element,mesh m){
 
     //math.zeroes(A,3);
     math.zeroes(U,10,10);
-    calculateLocalU(U);
+    calculateLocalU(element,U,m);
     fillLocalK(K,U);
 
 
@@ -175,7 +174,7 @@ public void fillLocalK(Matrix K,Matrix U){
     int Usizex2 = 2* U.Count;
     for (int i = 0; i < Usize; i++)
     {
-        for (int j = 0; j < USize; j++)
+        for (int j = 0; j < Usize; j++)
         {
             K[i][j] = U[i][j];
             K[i + Usize][j+Usize] = U[i][j];
@@ -185,8 +184,8 @@ public void fillLocalK(Matrix K,Matrix U){
     }
 } 
 
-public float calculateLocalJ(int ind,mesh m){
-    float J,a,b,c,d,e,f,g,h,i;
+public double calculateLocalJ(int ind,mesh m){
+    double J,a,b,c,d,e,f,g,h,i;
 
     element el = m.getElement(ind);
 
@@ -205,21 +204,21 @@ public float calculateLocalJ(int ind,mesh m){
     return J;
 }
 
-public List<float> createLocalb(int element,mesh m){
-    List<float> b = new List<float>();
-    List<float> f = new List<float>();
+public List<double> createLocalb(int element,mesh m){
+    List<double> b = new List<double>();
+    List<double> f = new List<double>();
     f = m.getF();
-    float J,b_i;
+    double J,b_i;
     J = calculateLocalJ(element,m);
 // Q 4.5
-    b_i = (float)4.5*J/24.0F;
+    b_i = (double)4.5*J/24.0F;
     b.Add(b_i); b.Add(b_i);
     b.Add(b_i); b.Add(b_i);
 
     return b;
 }
 
-public void crearSistemasLocales(mesh m,List<Matrix> localKs,List<List<float>> localbs){
+public void crearSistemasLocales(mesh m,List<Matrix> localKs,List<List<double>> localbs){
     for(int i=0;i<m.getSize(  (int)eSizes.ELEMENTS);i++){
         localKs.Add(createLocalK(i,m));
         localbs.Add(createLocalb(i,m));
@@ -354,15 +353,9 @@ public void assemblyK(element e,Matrix localK,Matrix K){
     K[index10][index10] += localK[9][9];
 
 
-
-
-
-
-
-;
 }
 
-public void assemblyb(element e,List<float> localb,List<float> b){
+public void assemblyb(element e,List<double> localb,List<double> b){
     int index1 = e.getNode1() - 1;
     int index2 = e.getNode2() - 1;
     int index3 = e.getNode3() - 1;
@@ -388,7 +381,7 @@ public void assemblyb(element e,List<float> localb,List<float> b){
 
 }
 
-public void ensamblaje(mesh m,List<Matrix> localKs,List<List<float>> localbs,Matrix K,List<float> b){
+public void ensamblaje(mesh m,List<Matrix> localKs,List<List<double>> localbs,Matrix K,List<double> b){
     for(int i=0;i<m.getSize((int)eSizes.ELEMENTS);i++){
         element e = m.getElement(i);
         assemblyK(e,localKs[i],K);
@@ -398,14 +391,14 @@ public void ensamblaje(mesh m,List<Matrix> localKs,List<List<float>> localbs,Mat
    
 }
 
-public void applyNeumann(mesh m,List<float> b){
+public void applyNeumann(mesh m,List<double> b){
     for(int i=0;i<m.getSize((int)eSizes.NEUMANN);i++){
         condition c = m.getCondition(i,(int)eSizes.NEUMANN);
         b[c.getNode1()-1] += c.getValue();
     }
 }
 
-public void applyDirichlet(mesh m,Matrix K,List<float> b){
+public void applyDirichlet(mesh m,Matrix K,List<double> b){
 
     for(int i=0;i<m.getSize((int)eSizes.DIRICHLET);i++){
   
@@ -418,7 +411,7 @@ public void applyDirichlet(mesh m,Matrix K,List<float> b){
 
    
         for(int row=0;row<K.Count;row++){
-            float cell = K[row][index];
+            double cell = K[row][index];
         
             K[row].RemoveAt(index);
             b[row] += -1*c.getValue()*cell;
@@ -426,7 +419,7 @@ public void applyDirichlet(mesh m,Matrix K,List<float> b){
     }
 }
 
-public void calculate(Matrix K, List<float> b, List<float> T){
+public void calculate(Matrix K, List<double> b, List<double> T){
     Console.WriteLine("Iniciando calculo de respuesta...\n");
     Matrix Kinv = new Matrix();
       Console.Write("Calculo de la inversa\n");

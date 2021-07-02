@@ -15,10 +15,10 @@ namespace polygot
 
             string filename =  "test.dat";
             List<Matrix> localKs =  new List<Matrix>();
-            List<List<float>> localbs  =  new List<List<float>>();
+            List<List<double>> localbs  =  new List<List<double>>();
             Matrix K = new Matrix();
-            List<float> b =  new List<float>();
-            List<float> T =  new List<float>();
+            List<double> b =  new List<double>();
+            List<double> T =  new List<double>();
 
             mesh m =  new mesh();
             utils.leerMallayCondiciones(m,filename);

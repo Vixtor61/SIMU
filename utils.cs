@@ -17,10 +17,10 @@ class Utils{
                 switch(mode){
                 case eModes.INT_FLOAT:
                     constants = filelines[lineCont++].Split(" ");
-                    int e0; float r0;
+                    int e0; double r0;
                      
                     e0 = int.Parse(constants[0]);
-                    r0 = float.Parse(constants[1]);
+                    r0 = double.Parse(constants[1]);
                     item_list[i].setValues((int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
                     e0,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
                     r0);
@@ -29,17 +29,17 @@ class Utils{
      
                  constants = filelines[lineCont++].Split(" ");
                  
-                    int e; float r,rr,rrr;
+                    int e; double r,rr,rrr;
                  
                 
                      e = int.Parse(constants[0]);
-                    r = float.Parse(constants[1]);
-                    rr = float.Parse(constants[2]);
-                    rrr = float.Parse(constants[3]);
+                    r = double.Parse(constants[1]);
+                    rr = double.Parse(constants[2]);
+                    rrr = double.Parse(constants[3]);
 
                     item_list[i].setValues(e,r,rr,rrr,
                     (int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
-                    (float)eIndicator.NOTHING);
+                    (double)eIndicator.NOTHING);
                     break;
                 case eModes.INT_INT_INT_INT_INT:
                     constants = filelines[lineCont++].Split(" ");
@@ -62,7 +62,7 @@ class Utils{
                     //file >> e1 >> e2 >> e3 >> e4 >> e5;
                     item_list[i].setValues(e1,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
                     e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,
-                    (float)eIndicator.NOTHING);
+                    (double)eIndicator.NOTHING);
                     break;
                 }
             }
@@ -111,19 +111,19 @@ class Utils{
        
 
             int lineCont = 0;
-            float EI,Q;
-            List<float> f = new List<float>() ;
+            double EI,Q;
+            List<double> f = new List<double>() ;
             int nnodes,neltos,ndirich,nneu;
 
  
             string[] constants = filelines[lineCont++].Split(" ");
-             EI= float.Parse( constants[0]) ;
+             EI= double.Parse( constants[0]) ;
           
             
             constants = filelines[lineCont++].Split(" ");
-            f.Add(float.Parse(constants[0]));
-            f.Add(float.Parse(constants[1]));
-            f.Add(float.Parse(constants[2]));
+            f.Add(double.Parse(constants[0]));
+            f.Add(double.Parse(constants[1]));
+            f.Add(double.Parse(constants[2]));
 
 
 
@@ -180,7 +180,7 @@ class Utils{
             return false;
         }
 /*
-        public void writeResults(mesh m,List<float> T,string filename){
+        public void writeResults(mesh m,List<double> T,string filename){
             String outputfilename;
             int[] dirich_indices = m.getDirichletIndices();
             condition[] dirich = m.getDirichlet();
