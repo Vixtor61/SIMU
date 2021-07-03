@@ -109,7 +109,7 @@ public void calculateLocalU(int i,Matrix U,mesh m){
      
      if(subn1n2 == 0){
          Console.WriteLine("ZERO");
-         subn1n2 = 0.000001;
+         subn1n2 = 0.001;
     
      }
 
@@ -119,8 +119,8 @@ public void calculateLocalU(int i,Matrix U,mesh m){
 
 
     double c1 =	 1/ Math.Pow(subn1n2, 2 );
-    double c2 = 	 *( 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX())  / (subn1n2 );
-    c2 = 		 c2* ( 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX());
+    double c2 = ( (4 * n1.getX())   + (4 * n2.getX()) - (8 * n8.getX()) )  / (subn1n2 );
+
     if(c2 == 0){
         c2= 0.00000001;
 
@@ -129,45 +129,57 @@ public void calculateLocalU(int i,Matrix U,mesh m){
         c2= 0.00000001;
 
     }
-    //Console.WriteLine($"c1 {c1} c2 {c2} node1 {n1.getX()} node2 {n2.getX()} node8 {n8.getX()} elements {i} test { 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX()} ");
+    
+    Console.WriteLine($"c1 {c1} c2 {c2} node1 {n1.getX()} node2 {n2.getX()} node8 {n8.getX()} elements {i} test { 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX()} ");
  
 
     //A
-    double A = 	 -(1/(192* Math.Pow(c2,2))) * Math.Pow(4*c1 - c2 ,4);
-    A =  		 A -  (1/(24*c2) ) * Math.Pow(4*c1 - c2 ,3);
-    A =  		 A -  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1  - c2,5);
-    A =  		 A +  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1 + 3* c2 ,5);
+    double n192c2pow2= (192* Math.Pow(c2,2));
+    double n192c2pow3= (192* Math.Pow(c2,3));
+    double n3840c2pow3 = (3840* Math.Pow(c2,3));
+    double n7680c2pow3 = (7680* Math.Pow(c2,3));
+    double n768c2pow3 = (7680* Math.Pow(c2,3));
+    double n96c2pow3 = (96* Math.Pow(c2,3));
+    double n24c2 = 24*c2;
 
-    double B = 				-(1/(192* Math.Pow(c2,2))) * Math.Pow(4*c1 + c2 ,4);
-    B =  					B +  (1/(24*c2) ) * Math.Pow(4*c1 + c2 ,3);
-    B =  					B +  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1  + c2,5);
-    B =  					B -  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c1 - 3* c2 ,5);
+     double n8c1 = 8*c1;
+ double n4c2 = 4*c2;
+ double n3c2 = 3*c2;
+  double n4c1 = 4*c1;
 
+  double c1pow2 = Math.Pow(c1,2);
+  double c2pow2 =Math.Pow(c2,2);
+
+    double A = 	 -  Math.Pow(n4c1 - c2,4)/n192c2pow2  -  Math.Pow(n4c1 - c2 ,3) / n24c2 
+                 -  Math.Pow(n4c1 - c2,5)/n3840c2pow3 +  Math.Pow(n4c1 + n3c2,5)/(n3840c2pow3);
+    ;
+
+
+    double B = 	 -  Math.Pow(n4c1 + c2,4)/n192c2pow2  +     Math.Pow(n4c1 + c2 ,3)/n24c2
+                 +  Math.Pow(n4c1 + c2,5) /(n3840c2pow3) -  Math.Pow(n4c1 - n3c2 ,5)/n3840c2pow3 ;
+  
     //C
-    double C = (double) (4 / 15) *  Math.Pow (c2,2);
+    double C = ((4*Math.Pow(c2,2)) / 15) ;
 
     //D
-    double D = 			(1/(192* Math.Pow(c2,2))) * Math.Pow(4*c2 - c1 ,4);
-    D = 				D -  (1/(3840* Math.Pow(c2,3))) * Math.Pow(4*c2 - c1,5);
-    D = 				D +  (1/(7680* Math.Pow(c2,3))) * Math.Pow(4*c2  + 8* c1,5);
-    D = 				D -  (1/(7680* Math.Pow(c2,3))) * Math.Pow(4*c2  - 8* c1,5);
-    D = 			 	D + (1/(768* Math.Pow(c2,3))) * Math.Pow(-8*c1  ,5);
-    D = 				D -  (c1/(96* Math.Pow(c2,3))) * Math.Pow(4*c2 - 8* c1 ,4);
-    D = 			 	D +  ((2*c1 - 1)/(192* Math.Pow(c2,3))) * Math.Pow(-8*c1,4);
+    double D = 	Math.Pow(n4c2 - c1 ,4) / n192c2pow2  - Math.Pow(n4c2 - c1,5)/n3840c2pow3;
+        +       Math.Pow(n4c2  + n8c1,5)/n7680c2pow3 -  Math.Pow(n4c2  - n8c1,5)/n7680c2pow3;
+         +      Math.Pow(-n8c1,5)/n768c2pow3 - (c1 * Math.Pow(n4c2 - n8c1 ,4))/n96c2pow3;
+        + ((2*c1-1)* Math.Pow((-n8c1),4)) /n192c2pow3 ;
 
-    double E =  (8/3)*Math.Pow(c1,2) + (1/30) * Math.Pow(c2,2);
+    double E =  (8/3)*c1pow2 + (1/30)*c2pow2;
 
-    double F =  (2/3)*(c1*c2) + (1/30) * Math.Pow(c2,2);
+    double F =  (2/3)*(c1*c2) - (1/30)*c2pow2;
 
-    double G =  -(16/3)*Math.Pow(c1,2) - (4/3) * (c1*c2) - (2/15)* Math.Pow(c2,2);
+    double G =  -(16/3)*c1pow2 - (4/3)*(c1*c2) - (2/15)*c2pow2;
 
-    double H =  (2/3) * (c1*c2) + (1/30)* Math.Pow(c2,2);
+    double H =  (2/3)*(c1*c2) + (1/30)*c2pow2;
 
-    double I =  -(16/3)*Math.Pow(c1,2)  - (2/3)* Math.Pow(c2,2);
+    double I =  -(16/3)*c1pow2  - (2/3)*c2pow2;
 
-    double J=  -(2/15)*Math.Pow(c2,2);
+    double J=  (2/15)*c2pow2;
 
-    double K =  -(4/3) * (c1*c2);
+    double K =  -(4/3)*(c1*c2);
 
      Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} J {J}    ");
     U[0][0] = A;U[0][1] = E;U[0][4] = -F;U[0][6] = -F;U[0][7] = G;U[0][8] = F;U[0][9] = F;
