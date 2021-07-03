@@ -4,10 +4,21 @@ using System;
 namespace polygot
 {
     
-     public class Matrix: List<List<double>> {  }
+     public class Matrix: List<List<double>> { 
+
+
+      }
    public class math
     {
         public void zeroes(Matrix M,int n){
+            for(int i=0;i<n;i++){
+                List<double> row = new List<double>(new double[n]);
+               // List<double> row(n,0.0);
+                M.Add(row);
+            }
+        }
+
+         public void ones(Matrix M,int n){
             for(int i=0;i<n;i++){
                 List<double> row = new List<double>(new double[n]);
                // List<double> row(n,0.0);
@@ -24,7 +35,7 @@ namespace polygot
 
        public void zeroes(List<double> v,int n){
             for(int i=0;i<n;i++){
-                v.Add((double)0.0);
+                v.Add(0.0);
             }
         }
 
@@ -70,29 +81,52 @@ namespace polygot
                     R[i][j] = real*M[i][j];
         }
 
+           public   void productRealMatrix2(double real,Matrix M){
+          //  zeroes(R,M.Count);
+            for(int i=0;i<M.Count;i++)
+                for(int j=0;j<M[0].Count;j++)
+                    M[i][j] = real*M[i][j];
+        }
+
    public     void getMinor(Matrix M,int i, int j){
             //cout << "Calculando menor ("<<i+1<<","<<j+1<<")...\n";
-            
+          //  Console.WriteLine(M.Count);   
             M.Remove(M[0+i]);
         
             for(i=0;i<M.Count;i++)
                 M[i].Remove(M[i][0+j]);
         }
 
-   public     double determinant(Matrix M){
+   public     double determinant(Matrix M,int current){
+            
             if(M.Count == 1) return M[0][0];
             else{
-                double det=0.0F;
+                double det=0.0;
                 for(int i=0;i<M[0].Count;i++){
+                    if (current == 0 )
+                    {
+                   //     Console.WriteLine($" {i}");
+                    }
                     Matrix minor = new Matrix();
                     copyMatrix(M,minor);
+                    
                     getMinor(minor,0,i);
                     
-                    det += (double) Math.Pow(-1,i)*M[0][i]*determinant(minor);
+                    det +=  (Math.Pow(-1,i))*(M[0][i]*determinant(minor,current++));
                 }
                 return det;
             }
         }
+
+
+
+    
+
+ 
+
+
+
+
 
    public     void cofactors(Matrix M, Matrix Cof){
             zeroes(Cof,M.Count);
@@ -102,7 +136,7 @@ namespace polygot
                     Matrix minor = new Matrix();
                     copyMatrix(M,minor);
                     getMinor(minor,i,j);
-                    Cof[i][j] = (double)Math.Pow(-1,i+j)*determinant(minor);
+                    Cof[i][j] = (double)Math.Pow(-1,i+j)*determinant(minor,0);
                 }
             }
         }
@@ -118,9 +152,16 @@ namespace polygot
             Console.WriteLine("Iniciando calculo de inversa...\n");
             Matrix Cof =  new Matrix() ;
             Matrix Adj = new Matrix();
-            Console.WriteLine("Calculo de determinante...\n");
-            double det = determinant(M);
-            if(det == 0) System.Environment.Exit(1);
+  
+            double det = determinant(M,0);
+  
+            if(det == 0){
+     
+        System.Environment.Exit(1);
+
+            } 
+            
+            
             Console.WriteLine("Iniciando calculo de cofactores...\n");
             cofactors(M,Cof);
             Console.WriteLine( "Calculo de adjunta...\n");
@@ -128,7 +169,15 @@ namespace polygot
             Console.WriteLine( "Calculo de inversa...\n");
             productRealMatrix(1/det,Adj,Minv);
         }
+
+
+
+    
             
     }
+
+
+
+    
 }
 

@@ -12,10 +12,13 @@ class Utils{
             if(nlines==eLines.DOUBLELINE) lineCont++;
 
             for(int i=0;i<n;i++){
-              
+               //Console.WriteLine($"Line cont{lineCont}");
 
                 switch(mode){
                 case eModes.INT_FLOAT:
+                   
+                    //Array.ForEach<string>()
+                   
                     constants = filelines[lineCont++].Split(" ");
                     int e0; double r0;
                      
@@ -26,9 +29,10 @@ class Utils{
                     r0);
                     break;
                 case eModes.INT_FLOAT_FLOAT_FLOAT:
-     
+                
                  constants = filelines[lineCont++].Split(" ");
-                 
+              //   Console.WriteLine(filelines[lineCont]);
+               //  Console.WriteLine(lineCont);
                     int e; double r,rr,rrr;
                  
                 
@@ -160,7 +164,7 @@ class Utils{
 
             //Se corrigen los índices en base a las filas que serán eliminadas
             //luego de aplicar las condiciones de Dirichlet
-            Console.WriteLine("nodes");
+         
             /*
        
             foreach (node i in m.getNodes())

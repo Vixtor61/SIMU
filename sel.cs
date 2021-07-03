@@ -6,12 +6,25 @@ namespace polygot
 class sel{
    math math = new math();
  public void showMatrix(Matrix K){
-    
+    //Console.WriteLine($"count {K.Count}");
+     //Console.WriteLine($"count {K[0].Count}");
+     /*
     for(int i=0;i<K[0].Count;i++){
         Console.Write("\t");
         for(int j=0;j<K.Count;j++){
+            //Console.Write(K[i][j] + "\t");
+        }
+        Console.Write("\n");
+    }
+    */
+        for(int i=0;i<K.Count;i++){
+        Console.Write(K[i].Count + "\t");
+        
+        for(int j=0;j<K[i].Count;j++){
+           // Console.WriteLine();
             Console.Write(K[i][j] + "\t");
         }
+        
         Console.Write("\n");
     }
 }
@@ -60,27 +73,64 @@ public double calculateLocalD(int ind,mesh m){
     return D;
 }
 
+   public void zeroDetector(node n1,node n2){
+        
+        if (n2.getX() - n1.getX()  == 0);
+            {
+                n2.setX(n2.getX() + 0.00001);
+                Console.WriteLine("ZERO");
+            }
 
+      if (n2.getX() + n1.getX()  == 0);
+            {
+                n2.setX(n2.getX() - 0.00001);
+                Console.WriteLine("ZERO");
+            }
+                    
+        }
 
 public void calculateLocalU(int i,Matrix U,mesh m){
     
   
     element e = m.getElement(i);
     //calculate c
-     node n1 = m.getNode(e.getNode1()-1);
+    node n1 = m.getNode(e.getNode1()-1);
     node n2 = m.getNode(e.getNode2()-1);
     node n3 = m.getNode(e.getNode3()-1);
     node n4 = m.getNode(e.getNode4()-1);
-     node n5 = m.getNode(e.getNode5()-1);
+    node n5 = m.getNode(e.getNode5()-1);
     node n6= m.getNode(e.getNode6()-1);
     node n7 = m.getNode(e.getNode7()-1);
     node n8 = m.getNode(e.getNode8()-1);
-     node n9 = m.getNode(e.getNode9()-1);
+    node n9 = m.getNode(e.getNode9()-1);
     node n10 = m.getNode(e.getNode10()-1);
+    
+     double subn1n2 = n2.getX()- n1.getX();
+     
+     if(subn1n2 == 0){
+         Console.WriteLine("ZERO");
+         subn1n2 = 0.000001;
+    
+     }
 
-    double c1 =	 1/ Math.Pow(n2.getX()  - n1.getX(), 2 );
-    double c2 = 	 1/ (n2.getX()  - n1.getX() );
+  //  double c1 =	 1/ Math.Pow(n2.getX()  - n1.getX(), 2 );
+   // double c2 = 	 1/ (n2.getX()  - n1.getX() );
+    //c2 = 		 c2* ( 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX());
+
+
+    double c1 =	 1/ Math.Pow(subn1n2, 2 );
+    double c2 = 	 *( 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX())  / (subn1n2 );
     c2 = 		 c2* ( 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX());
+    if(c2 == 0){
+        c2= 0.00000001;
+
+    }
+    if(c1 == 0){
+        c2= 0.00000001;
+
+    }
+    //Console.WriteLine($"c1 {c1} c2 {c2} node1 {n1.getX()} node2 {n2.getX()} node8 {n8.getX()} elements {i} test { 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX()} ");
+ 
 
     //A
     double A = 	 -(1/(192* Math.Pow(c2,2))) * Math.Pow(4*c1 - c2 ,4);
@@ -119,6 +169,7 @@ public void calculateLocalU(int i,Matrix U,mesh m){
 
     double K =  -(4/3) * (c1*c2);
 
+     Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} J {J}    ");
     U[0][0] = A;U[0][1] = E;U[0][4] = -F;U[0][6] = -F;U[0][7] = G;U[0][8] = F;U[0][9] = F;
     U[1][0] = E;U[1][1] = B;U[1][4] = -H;U[1][6] = -H;U[1][7] = I;U[1][8] = H;U[1][9] = H;
 
@@ -144,13 +195,16 @@ public Matrix createLocalK(int element,mesh m,double J){
     double EI = m.getEI();
     Matrix K = new Matrix();
     Matrix U= new Matrix();
-
+    
 
     //math.zeroes(A,3);
     math.zeroes(U,10,10);
     calculateLocalU(element,U,m);
     fillLocalK(K,U);
-    math.productRealMatrix(J*EI,K,K);
+
+    math.productRealMatrix2(J*EI,K);
+
+
 
 
 
@@ -164,6 +218,8 @@ public void fillLocalK(Matrix K,Matrix U){
     math.zeroes(K,30,30);
     int Usize = U.Count;
     int Usizex2 = 2* U.Count;
+    //WConsole.WriteLine("\n\n\n\n\n");
+    //Console.WriteLine(K[K.Count-1][K.Count-1]);
     for (int i = 0; i < Usize; i++)
     {
         for (int j = 0; j < Usize; j++)
@@ -174,6 +230,7 @@ public void fillLocalK(Matrix K,Matrix U){
             
         }
     }
+
 } 
 
 public double calculateLocalJ(int ind,mesh m){
@@ -256,6 +313,8 @@ public void crearSistemasLocales(mesh m,List<Matrix> localKs,List<List<double>> 
 }
 
 public void assemblyK(element e,Matrix localK,Matrix K){
+
+    //a index
     int index1 = e.getNode1() - 1;
     int index2 = e.getNode2() - 1;
     int index3 = e.getNode3() - 1;
@@ -267,7 +326,8 @@ public void assemblyK(element e,Matrix localK,Matrix K){
     int index9 = e.getNode9() - 1;
     int index10 = e.getNode10() - 1;
  
-
+    Console.WriteLine(localK.Count);
+    
     K[index1][index1] += localK[0][0];
     K[index1][index2] += localK[0][1];
     K[index1][index3] += localK[0][2];
@@ -386,6 +446,7 @@ public void assemblyK(element e,Matrix localK,Matrix K){
 }
 
 public void assemblyb(element e,List<double> localb,List<double> b){
+
     int index1 = e.getNode1() - 1;
     int index2 = e.getNode2() - 1;
     int index3 = e.getNode3() - 1;
@@ -452,10 +513,31 @@ public void applyDirichlet(mesh m,Matrix K,List<double> b){
 public void calculate(Matrix K, List<double> b, List<double> T){
     Console.WriteLine("Iniciando calculo de respuesta...\n");
     Matrix Kinv = new Matrix();
+    Matrix Kinv2 = new Matrix();
       Console.Write("Calculo de la inversa\n");
-    math.inverseMatrix(K,Kinv);
+      
+      Random r =  new Random();
+    Matrix P = new Matrix();
+    math.zeroes(P,100);
+    for (int i = 0; i < P.Count; i++)
+    {
+        for (int j = 0; j < P.Count; j++)
+        {
+            P[i][j] =r.Next(50, 101);
+        }
+    }
+    //showMatrix(K);
+    Console.WriteLine();
+    test2 test2 = new test2();
+    Kinv = test2.MatrixInverse(P);
+
+    showMatrix(Kinv);
+    Console.WriteLine("SDf");
+    math.inverseMatrix(P,Kinv2);
+    Console.WriteLine();
+     showMatrix(Kinv2);
     Console.Write("Caclulo de la inversa\n");
-    math.productMatrixVector(Kinv,b,T);
+   // math.productMatrixVector(Kinv,b,T);
 }
 }
 }

@@ -180,6 +180,12 @@ enum eSizes :int {NODES,ELEMENTS,DIRICHLET,NEUMANN};
                 node2 = f;
                 node3 = g;
                 node4 = h;
+                node5 = i;
+                node6 = j;
+                node7 = k;
+                node8 = l;
+                node9 = m;
+                node10 = n;
             }
 
     };
