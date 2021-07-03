@@ -26,29 +26,22 @@ namespace polygot
            //sel.showKs(localKs);
             
             //Console.WriteLine(localKs[]);
-            /*
-            Console.WriteLine("LocalKs");
-            sel.showKs(localKs);
-            sel.showbs(localbs);
-            */
-         //   sel.showVector(localbs[2]);
-         //   sel.showKs(localKs);
             
-     //       math.zeroes(K,m.getSize((int)eSizes.NODES));
-      //      math.zeroes(b,m.getSize((int)eSizes.NODES));
-        //    sel.ensamblaje(m,localKs,localbs,K,b);
+          
+            
+            math.zeroes(K,m.getSize((int)eSizes.NODES));
+            math.zeroes(b,m.getSize((int)eSizes.NODES));
+            sel.ensamblaje(m,localKs,localbs,K,b);
            //   Console.WriteLine(localKs[0][29][29]);
 
-         //   sel.applyNeumann(m,b);
+            sel.applyNeumann(m,b);
 
-       //    sel.applyDirichlet(m,K,b);
+           sel.applyDirichlet(m,K,b);
      
           //  sel.showVector(b);
 
 
-        //   sel.showMatrix(K);
-           // Console.WriteLine("\n ");
-            //Console.WriteLine(K[500][29]);
+     
          //   math.zeroes(T,b.Count);
          //   sel.calculate(K,b,T);
 

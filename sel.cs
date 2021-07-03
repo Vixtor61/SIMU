@@ -89,6 +89,17 @@ public double calculateLocalD(int ind,mesh m){
                     
         }
 
+           public void checkDelta(ref double n1,ref double delta){
+
+                if (n1 < delta)
+                {
+                    n1 = delta;
+                    Console.WriteLine("shit");
+                    Console.WriteLine("shit");
+                }
+    
+        }
+
 public void calculateLocalU(int i,Matrix U,mesh m){
     
   
@@ -104,35 +115,22 @@ public void calculateLocalU(int i,Matrix U,mesh m){
     node n8 = m.getNode(e.getNode8()-1);
     node n9 = m.getNode(e.getNode9()-1);
     node n10 = m.getNode(e.getNode10()-1);
-    
+     double delta = 0.001;
      double subn1n2 = n2.getX()- n1.getX();
-     
-     if(subn1n2 == 0){
-         Console.WriteLine("ZERO");
-         subn1n2 = 0.001;
-    
-     }
+     checkDelta(ref subn1n2,ref delta);
+   
 
-  //  double c1 =	 1/ Math.Pow(n2.getX()  - n1.getX(), 2 );
-   // double c2 = 	 1/ (n2.getX()  - n1.getX() );
-    //c2 = 		 c2* ( 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX());
-
-
+  
     double c1 =	 1/ Math.Pow(subn1n2, 2 );
     double c2 = ( (4 * n1.getX())   + (4 * n2.getX()) - (8 * n8.getX()) )  / (subn1n2 );
 
-    if(c2 == 0){
-        c2= 0.00000001;
-
-    }
-    if(c1 == 0){
-        c2= 0.00000001;
-
-    }
+     checkDelta(ref c1,ref delta);
+     checkDelta(ref c2,ref delta);
+   
     
     Console.WriteLine($"c1 {c1} c2 {c2} node1 {n1.getX()} node2 {n2.getX()} node8 {n8.getX()} elements {i} test { 4 * n1.getX()   + 4 * n2.getX() - 8 * n8.getX()} ");
  
-
+   
     //A
     double n192c2pow2= (192* Math.Pow(c2,2));
     double n192c2pow3= (192* Math.Pow(c2,3));
@@ -142,30 +140,44 @@ public void calculateLocalU(int i,Matrix U,mesh m){
     double n96c2pow3 = (96* Math.Pow(c2,3));
     double n24c2 = 24*c2;
 
-     double n8c1 = 8*c1;
- double n4c2 = 4*c2;
- double n3c2 = 3*c2;
-  double n4c1 = 4*c1;
+    checkDelta(ref n192c2pow2,ref delta);
+    checkDelta(ref n192c2pow3,ref delta);
+    checkDelta(ref n3840c2pow3,ref delta);
+    checkDelta(ref n7680c2pow3,ref delta);
+    checkDelta(ref n768c2pow3,ref delta);
+    checkDelta(ref n96c2pow3,ref delta);
+    checkDelta(ref n24c2,ref delta);
 
-  double c1pow2 = Math.Pow(c1,2);
-  double c2pow2 =Math.Pow(c2,2);
+
+
+
+     double n8c1 = 8*c1;
+    double n4c2 = 4*c2;
+    double n3c2 = 3*c2;
+    double n4c1 = 4*c1;
+
+    double c1pow2 = Math.Pow(c1,2);
+    double c2pow2 =Math.Pow(c2,2);
 
     double A = 	 -  Math.Pow(n4c1 - c2,4)/n192c2pow2  -  Math.Pow(n4c1 - c2 ,3) / n24c2 
-                 -  Math.Pow(n4c1 - c2,5)/n3840c2pow3 +  Math.Pow(n4c1 + n3c2,5)/(n3840c2pow3);
+                 -  Math.Pow(n4c1 - c2,5)/n3840c2pow3 +  Math.Pow(n4c1 + n3c2,5)/(n3840c2pow3)
+                 ;
     ;
 
 
     double B = 	 -  Math.Pow(n4c1 + c2,4)/n192c2pow2  +     Math.Pow(n4c1 + c2 ,3)/n24c2
-                 +  Math.Pow(n4c1 + c2,5) /(n3840c2pow3) -  Math.Pow(n4c1 - n3c2 ,5)/n3840c2pow3 ;
+                 +  Math.Pow(n4c1 + c2,5) /(n3840c2pow3) -  Math.Pow(n4c1 - n3c2 ,5)/n3840c2pow3 
+                 ;
   
     //C
     double C = ((4*Math.Pow(c2,2)) / 15) ;
 
     //D
-    double D = 	Math.Pow(n4c2 - c1 ,4) / n192c2pow2  - Math.Pow(n4c2 - c1,5)/n3840c2pow3;
-        +       Math.Pow(n4c2  + n8c1,5)/n7680c2pow3 -  Math.Pow(n4c2  - n8c1,5)/n7680c2pow3;
-         +      Math.Pow(-n8c1,5)/n768c2pow3 - (c1 * Math.Pow(n4c2 - n8c1 ,4))/n96c2pow3;
-        + ((2*c1-1)* Math.Pow((-n8c1),4)) /n192c2pow3 ;
+    double D = 	Math.Pow(n4c2 - c1 ,4) / n192c2pow2  - Math.Pow(n4c2 - c1,5)/n3840c2pow3
+        +       Math.Pow(n4c2  + n8c1,5)/n7680c2pow3 -  Math.Pow(n4c2  - n8c1,5)/n7680c2pow3
+         +      Math.Pow(-n8c1,5)/n768c2pow3 - (c1 * Math.Pow(n4c2 - n8c1 ,4))/n96c2pow3
+        + ((2*c1-1)* Math.Pow((-n8c1),4)) /n192c2pow3 
+        ;
 
     double E =  (8/3)*c1pow2 + (1/30)*c2pow2;
 
