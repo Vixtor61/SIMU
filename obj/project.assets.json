@@ -8,19 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "/home/victor/.nuget/packages/": {}
+    "C:\\Users\\Victor\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/victor/Documents/code/uca/tsc012021/polygot/polygot.csproj",
+      "projectUniqueName": "C:\\Users\\Victor\\Documents\\code\\SIMU\\polygot.csproj",
       "projectName": "polygot",
-      "projectPath": "/home/victor/Documents/code/uca/tsc012021/polygot/polygot.csproj",
-      "packagesPath": "/home/victor/.nuget/packages/",
-      "outputPath": "/home/victor/Documents/code/uca/tsc012021/polygot/obj/",
+      "projectPath": "C:\\Users\\Victor\\Documents\\code\\SIMU\\polygot.csproj",
+      "packagesPath": "C:\\Users\\Victor\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Victor\\Documents\\code\\SIMU\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/victor/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Victor\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -53,18 +53,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[5.0.0, 5.0.0]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.204/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.204\\RuntimeIdentifierGraph.json"
       }
     }
   }

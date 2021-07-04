@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace polygot
 {
-    
+        using Matrix = List<List<double>>;
     class test
     {
 
@@ -11,6 +12,7 @@ namespace polygot
 
         Console.WriteLine("hi");
     }
+
 }
 
 }

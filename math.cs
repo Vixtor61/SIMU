@@ -3,29 +3,33 @@ using System;
 
 namespace polygot
 {
-    
-     public class Matrix: List<List<float>> {  }
+    /*
+    public class math :  List<List<double>>
+    {
+        
+    }
+    */
+    using Matrix = List<List<double>>;
+   
    public class math
     {
         public void zeroes(Matrix M,int n){
             for(int i=0;i<n;i++){
-                List<float> row = new List<float>(new float[n]);
-               // List<float> row(n,0.0);
+                List<double> row = new List<double>(new double[n]);
                 M.Add(row);
             }
         }
 
         public void zeroes(Matrix M,int n,int m){
             for(int i=0;i<n;i++){
-               List<float> row = new List<float>(new float[m]);
+               List<double> row = new List<double>(new double[m]);
                 M.Add(row);
             }
         }
 
-       public void zeroes(List<float> v,int n){
-            for(int i=0;i<n;i++){
-                v.Add((float)0.0);
-            }
+       public void zeroes(List<double> v,int n){
+            v = new List<double>(new double[n]);
+            
         }
 
      public   void copyMatrix(Matrix A, Matrix copy){
@@ -35,8 +39,8 @@ namespace polygot
                     copy[i][j] = A[i][j];
         }
 
-     public   float calculateMember(int i,int j,int r,Matrix A,Matrix B){
-            float member = 0;
+     public   double calculateMember(int i,int j,int r,Matrix A,Matrix B){
+            double member = 0;
             for(int k=0;k<r;k++)
                 member += A[i][k]*B[k][j];
             return member;
@@ -53,9 +57,9 @@ namespace polygot
             return R;
         }
 
-   public     void productMatrixVector(Matrix A, List<float>  v, List<float>  R){
+   public     void productMatrixVector(Matrix A, List<double>  v, List<double>  R){
             for(int f=0;f<A.Count;f++){
-                float cell = 0.0F;
+                double cell = 0.0F;
                 for(int c=0;c<v.Count;c++){
                     cell += A[f][c]*v[c];
                 }
@@ -63,46 +67,50 @@ namespace polygot
             }
         }
 
-     public   void productRealMatrix(float real,Matrix M,Matrix R){
+     public   void productRealMatrix(double real,Matrix M,Matrix R){
             zeroes(R,M.Count);
             for(int i=0;i<M.Count;i++)
                 for(int j=0;j<M[0].Count;j++)
                     R[i][j] = real*M[i][j];
         }
 
-   public     void getMinor(Matrix M,int i, int j){
-            //cout << "Calculando menor ("<<i+1<<","<<j+1<<")...\n";
-            
-            M.Remove(M[0+i]);
-        
-            for(i=0;i<M.Count;i++)
-                M[i].Remove(M[i][0+j]);
+           public   void productRealMatrix2(double real,Matrix M){
+          //  zeroes(R,M.Count);
+            for(int i=0;i<M.Count;i++)
+                for(int j=0;j<M[0].Count;j++)
+                    M[i][j] = real*M[i][j];
         }
 
-   public     float determinant(Matrix M){
+   public     void getMinor(Matrix M,int i, int j){
+            M.Remove(M[0+i]);
+            for(i=0;i<M.Count;i++)
+                M[i].Remove(M[i][0+j]);
+}
+public     double determinant(Matrix M){
             if(M.Count == 1) return M[0][0];
             else{
-                float det=0.0F;
+                double det=0.0;
                 for(int i=0;i<M[0].Count;i++){
+              
                     Matrix minor = new Matrix();
                     copyMatrix(M,minor);
                     getMinor(minor,0,i);
-                    
-                    det += (float) Math.Pow(-1,i)*M[0][i]*determinant(minor);
+                    det +=  (Math.Pow(-1,i))*(M[0][i]*determinant(minor));
                 }
                 return det;
             }
         }
 
-   public     void cofactors(Matrix M, Matrix Cof){
+
+   public void cofactors(Matrix M, Matrix Cof){
             zeroes(Cof,M.Count);
             for(int i=0;i<M.Count;i++){
                 for(int j=0;j<M[0].Count;j++){
-                    //cout << "Calculando cofactor ("<<i+1<<","<<j+1<<")...\n";
                     Matrix minor = new Matrix();
-                    copyMatrix(M,minor);
+                    minor =  MatrixDuplicate(M);
+                    //copyMatrix(M,minor);
                     getMinor(minor,i,j);
-                    Cof[i][j] = (float)Math.Pow(-1,i+j)*determinant(minor);
+                    Cof[i][j] = (double)Math.Pow(-1,i+j)*determinant(minor);
                 }
             }
         }
@@ -118,9 +126,11 @@ namespace polygot
             Console.WriteLine("Iniciando calculo de inversa...\n");
             Matrix Cof =  new Matrix() ;
             Matrix Adj = new Matrix();
-            Console.WriteLine("Calculo de determinante...\n");
-            float det = determinant(M);
-            if(det == 0) System.Environment.Exit(1);
+            double det = determinant(M);
+            if(det == 0){
+                  System.Environment.Exit(1);
+            } 
+               
             Console.WriteLine("Iniciando calculo de cofactores...\n");
             cofactors(M,Cof);
             Console.WriteLine( "Calculo de adjunta...\n");
@@ -128,7 +138,46 @@ namespace polygot
             Console.WriteLine( "Calculo de inversa...\n");
             productRealMatrix(1/det,Adj,Minv);
         }
-            
+
+
+
+    
+       public static Matrix MatrixCreate(int rows, int cols)
+        {
+            Matrix result = new Matrix(rows);
+            for (int i = 0; i < rows; ++i){
+                  //  result[i][i] = 0;
+             //   result.AddRange
+                result.Add(new List<double>(new double[cols]));
+            }
+                
+            //result[i] = new double[cols];
+
+          //Console.WriteLine();
+           // Console.WriteLine(result[0].Count);
+           
+            return result;
+        }     
+
+
+        public    static Matrix MatrixDuplicate(Matrix matrix)
+        {
+           
+            Console.WriteLine(matrix[0].Count);
+            Matrix result = MatrixCreate(matrix.Count, matrix[0].Count);
+            for (int i = 0; i < matrix.Count; ++i) // copy the values
+                for (int j = 0; j < matrix[i].Count; ++j){
+                    result[i][j] = matrix[i][j];
+                }
+                    
+            return result;
+        }
     }
+
+
+
+
+
+    
 }
 

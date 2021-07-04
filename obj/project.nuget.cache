@@ -1,10 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SgityhcbKIy3kUxEfVIfumAVLwNf+F/PPR0HIZdeinfx+wQKTb3XWnaCGmYrh/yHZ5aZmkykR4pRfH0uHfuoLQ==",
+  "dgSpecHash": "2+ytm3X78QhwCg+CNNoNzS2U60VzdtXOrA7Ms3RJ9JBgv47LW5/c8VyTuirdwP1IERxVh0/c7SWJZJ18Vqgcuw==",
   "success": true,
-  "projectFilePath": "/home/victor/Documents/code/uca/tsc012021/polygot/polygot.csproj",
-  "expectedPackageFiles": [
-    "/home/victor/.nuget/packages/microsoft.aspnetcore.app.ref/5.0.0/microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\Victor\\Documents\\code\\SIMU\\polygot.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }

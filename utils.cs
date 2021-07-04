@@ -1,10 +1,13 @@
 
-using System.IO;
 using System.Collections.Generic;
 using System;
+using System.Numerics;
+using System.Threading.Tasks;
+using System.IO;
 namespace polygot
 {
 
+    using Matrix = List<List<double>>;
 class Utils{
         public int obtenerDatos(string[] filelines,eLines nlines,int n,eModes mode,item[] item_list,int lineCont){
          string[] constants = {};
@@ -12,45 +15,58 @@ class Utils{
             if(nlines==eLines.DOUBLELINE) lineCont++;
 
             for(int i=0;i<n;i++){
-              
 
                 switch(mode){
                 case eModes.INT_FLOAT:
-                    constants = filelines[lineCont++].Split(" ");
-                    int e0; float r0;
+
+                   
+                    constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
+                    int e0; double r0;
                      
                     e0 = int.Parse(constants[0]);
-                    r0 = float.Parse(constants[1]);
-                    item_list[i].setValues((int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,e0,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,r0);
+                    r0 = double.Parse(constants[1]);
+                    item_list[i].setValues((int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    e0,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    r0);
                     break;
                 case eModes.INT_FLOAT_FLOAT_FLOAT:
-     
-                 constants = filelines[lineCont++].Split(" ");
-                 
-                    int e; float r,rr,rrr;
-                 
                 
+                 constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
+                    int e; double r,rr,rrr;
+                     
                      e = int.Parse(constants[0]);
-                    r = float.Parse(constants[1]);
-                    rr = float.Parse(constants[2]);
-                    rrr = float.Parse(constants[3]);
+                    r = double.Parse(constants[1]);
+                    rr = double.Parse(constants[2]);
+                    rrr = double.Parse(constants[3]);
 
-                    item_list[i].setValues(e,r,rr,rrr,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(float)eIndicator.NOTHING);
+                    item_list[i].setValues(e,r,rr,rrr,
+                    (int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    (double)eIndicator.NOTHING);
                     break;
                 case eModes.INT_INT_INT_INT_INT:
-                    constants = filelines[lineCont++].Split(" ");
-                    int e1,e2, e3,e4,e5;
+                    constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
+                    int e1,e2, e3,e4,e5,e6,e7,e8,e9,e10,e11;
+
+                    
                  
                     e1 = int.Parse(constants[0]);
                     e2 = int.Parse(constants[1]);
                     e3 = int.Parse(constants[2]);
                     e4 = int.Parse(constants[3]);
                     e5 = int.Parse(constants[4]);
+                    e6 = int.Parse(constants[5]);
+                    e7 = int.Parse(constants[6]);
+                    e8 = int.Parse(constants[7]);
+                    e9 = int.Parse(constants[8]);
+                    e10 = int.Parse(constants[9]);
+                    e11 = int.Parse(constants[10]);
                     
                     
                     //int e1,e2,e3,e4,e5;
                     //file >> e1 >> e2 >> e3 >> e4 >> e5;
-                    item_list[i].setValues(e1,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,e2,e3,e4,e5,(int)eIndicator.NOTHING);
+                    item_list[i].setValues(e1,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,
+                    (double)eIndicator.NOTHING);
                     break;
                 }
             }
@@ -59,7 +75,7 @@ class Utils{
 
         public void correctConditions(int n,condition[] list,int[] indices){
   
-           // Array.ForEach<int>(indices, Console.WriteLine);
+
          
             for(int i=0;i<n;i++){
 
@@ -72,8 +88,6 @@ class Utils{
             for(int i=0;i<n-1;i++){
                 int pivot = list[i].getNode1();
                 for(int j=i;j<n;j++)
-                    //Si la condición actual corresponde a un nodo posterior al nodo eliminado por
-                    //aplicar la condición anterior, se debe actualizar su posición.
                     if(list[j].getNode1()>pivot)
                         list[j].setNode1(list[j].getNode1()-1);
             }
@@ -99,20 +113,22 @@ class Utils{
        
 
             int lineCont = 0;
-            float k,Q;
+            double EI,Q;
+            List<double> f = new List<double>() ;
             int nnodes,neltos,ndirich,nneu;
 
- 
-            string[] constants = filelines[lineCont++].Split(" ");
-  
-            k = float.Parse( constants[0]) ;
-            Q = float.Parse( constants[1] );
+    
+            string[] constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
+             EI= double.Parse( constants[0]) ;
 
-          
+             f.Add(-24);
+             f.Add(-99);
+             f.Add(-12);
 
-
-
-            constants = filelines[lineCont++].Split(" ");
+            
+            
+            constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
+            Array.ForEach<string>(constants,Console.WriteLine);
             nnodes = int.Parse(constants[0]);
             neltos = int.Parse(constants[1]);
             ndirich= int.Parse(constants[2]);
@@ -120,7 +136,7 @@ class Utils{
             
             
 
-            m.setParameters(k,Q);
+            m.setParameters(EI,f);
             m.setSizes(nnodes,neltos,ndirich,nneu);
             m.createData();
 
@@ -129,7 +145,7 @@ class Utils{
             
             lineCont = obtenerDatos(filelines,eLines.SINGLELINE,nnodes,eModes.INT_FLOAT_FLOAT_FLOAT,m.getNodes(),lineCont );
             lineCont++;
-            //Console.WriteLine($"contadorr {lineCont} " );
+       
             lineCont = obtenerDatos(filelines,eLines.DOUBLELINE,neltos,eModes.INT_INT_INT_INT_INT,m.getElements(),lineCont);
             lineCont++;
             lineCont = obtenerDatos(filelines,eLines.DOUBLELINE,ndirich,eModes.INT_FLOAT,m.getDirichlet(),lineCont);
@@ -138,24 +154,6 @@ class Utils{
             
             
           
-
-            //Se corrigen los índices en base a las filas que serán eliminadas
-            //luego de aplicar las condiciones de Dirichlet
-            Console.WriteLine("nodes");
-            /*
-       
-            foreach (node i in m.getNodes())
-                {
-                    System.Console.WriteLine("{0} {1} {2} {3}", i.getId(), i.getX() ,i.getY(),i.getZ() );
-                }
-
-
-                   Console.WriteLine("elemtes");
-                        foreach (element i in m.getElements())
-                {
-                    System.Console.WriteLine("{0} {1} {2} {3}", i.getNode1(), i.getNode2() ,i.getNode3(),i.getNode4() );
-                }
-           */
             correctConditions(ndirich,m.getDirichlet(),m.getDirichletIndices());
         }
 
@@ -164,18 +162,19 @@ class Utils{
                 if(arr[i]==v) return true;
             return false;
         }
-/*
-        public void writeResults(mesh m,List<float> T,string filename){
+
+        public async Task writeResults(mesh m,List<double> T,string filename){
             String outputfilename;
+            outputfilename = filename + "post.res";
+            using StreamWriter file = new(outputfilename);
+        await file.WriteLineAsync("Fourth line");
             int[] dirich_indices = m.getDirichletIndices();
             condition[] dirich = m.getDirichlet();
-            ofstream file;
+         
 
          //   addExtension(outputfilename,filename,".post.res");
-            file.open(outputfilename);
-
-            file << "GiD Post Results File 1.0\n";
-            file << "Result \"Temperature\" \"Load Case 1\" 1 Scalar OnNodes\nComponentNames \"T\"\nValues\n";
+             await file.WriteLineAsync("GiD Post Results File 1.0\n");
+            await file.WriteLineAsync("Result \"Temperature\" \"Load Case 1\" 1 Scalar OnNodes\nComponentNames \"T\"\nValues\n");
 
             int Tpos = 0;
             int Dpos = 0;
@@ -183,20 +182,18 @@ class Utils{
             int nd = m.getSize((int)eSizes.DIRICHLET );
             for(int i=0;i<n;i++){
                 if(findIndex(i+1,nd,dirich_indices)){
-                    file << i+1 << " " << dirich[Dpos].getValue() << "\n";
+                    await file.WriteLineAsync($"{i+1} {dirich[Dpos].getValue()}");
                     Dpos++;
                 }else{
-                    file << i+1 << " " << T.at(Tpos) << "\n";
+                  
+                    await file.WriteLineAsync($"{i+1} {T[Tpos]}");
                     Tpos++;
                 }
             }
-
-            file << "End values\n";
-
-            file.close();
+            await file.WriteLineAsync("End values");
         }
 
 
-*/
+
 }
 }
