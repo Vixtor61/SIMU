@@ -315,27 +315,27 @@ public List<double> createLocalb(int element,mesh m,double J){
 	M[8][0] =  4.0;M[8][1] =  4.0;M[8][2] =  4.0;
 	M[9][0] =  4.0;M[9][1] =  4.0;M[9][2] =  4.0;
 
-	M[10][0] = 59;M[10][1] = 59;M[10][2] = 59;
-	M[11][0] = -1;M[11][1] = -1;M[11][2] = -1;
-	M[12][0] = -1;M[12][1] = -1;M[12][2] = -1;
-	M[13][0] = -1;M[13][1] = -1;M[13][2] = -1;
-	M[14][0] =  4;M[14][1] =  4;M[14][2] =  4;
-	M[15][0] =  4;M[15][1] =  4;M[15][2] =  4;
-	M[16][0] =  4;M[16][1] =  4;M[16][2] =  4;
-	M[17][0] =  4;M[17][1] =  4;M[17][2] =  4;
-	M[18][0] =  4;M[18][1] =  4;M[18][2] =  4;
-	M[19][0] =  4;M[19][1] =  4;M[19][2] =  4;
+	M[10][0] = 59.0;M[10][1] = 59.0;M[10][2] = 59.0;
+	M[11][0] = -1.0;M[11][1] = -1.0;M[11][2] = -1.0;
+	M[12][0] = -1.0;M[12][1] = -1.0;M[12][2] = -1.0;
+	M[13][0] = -1.0;M[13][1] = -1.0;M[13][2] = -1.0;
+	M[14][0] =  4.0;M[14][1] =  4.0;M[14][2] =  4.0;
+	M[15][0] =  4.0;M[15][1] =  4.0;M[15][2] =  4.0;
+	M[16][0] =  4.0;M[16][1] =  4.0;M[16][2] =  4.0;
+	M[17][0] =  4.0;M[17][1] =  4.0;M[17][2] =  4.0;
+	M[18][0] =  4.0;M[18][1] =  4.0;M[18][2] =  4.0;
+	M[19][0] =  4.0;M[19][1] =  4.0;M[19][2] =  4.0;
 
-	M[20][0] = 59;M[20][1] = 59;M[20][2] = 59;
-	M[21][0] = -1;M[21][1] = -1;M[21][2] = -1;
-	M[22][0] = -1;M[22][1] = -1;M[22][2] = -1;
-	M[23][0] = -1;M[23][1] = -1;M[23][2] = -1;
-	M[24][0] =  4;M[24][1] =  4;M[24][2] =  4;
-	M[25][0] =  4;M[25][1] =  4;M[25][2] =  4;
-	M[26][0] =  4.0;M[26][1] =  4;M[26][2] =  4;
-	M[27][0] =  4.0;M[27][1] =  4;M[27][2] =  4;
-	M[28][0] =  4.0;M[28][1] =  4;M[28][2] =  4;
-	M[29][0] =  4.0;M[29][1] =  4;M[29][2] =  4;
+	M[20][0] = 59.0;M[20][1] = 59.0;M[20][2] = 59;
+	M[21][0] = -1.0;M[21][1] = -1.0;M[21][2] = -1.0;
+	M[22][0] = -1.0;M[22][1] = -1.0;M[22][2] = -1.0;
+	M[23][0] = -1.0;M[23][1] = -1.0;M[23][2] = -1.0;
+	M[24][0] =  4.0;M[24][1] =  4.0;M[24][2] =  4.0;
+	M[25][0] =  4.0;M[25][1] =  4.0;M[25][2] =  4.0;
+	M[26][0] =  4.0;M[26][1] =  4.0;M[26][2] =  4.0;
+	M[27][0] =  4.0;M[27][1] =  4.0;M[27][2] =  4.0;
+	M[28][0] =  4.0;M[28][1] =  4.0;M[28][2] =  4.0;
+	M[29][0] =  4.0;M[29][1] =  4.0;M[29][2] =  4.0;
 	
 	math.productMatrixVector(M,m.getF(),b);
     double c = J/120;
@@ -406,7 +406,7 @@ for (int i = 20; i < 30; i++)
         {
             int krow = indexs[i];
             int kcol = indexs[j];
-            K[krow][kcol] = localK[i][j];
+            K[krow][kcol] += localK[i][j];
     
         }
         
@@ -418,7 +418,8 @@ for (int i = 20; i < 30; i++)
 }
 
 public void assemblyb(element e,List<double> localb,List<double> b){
-
+    int nnodes = localb.Count/3;
+    int nnodes2 = 2*nnodes;
     int index1 = e.getNode1() - 1;
     int index2 = e.getNode2() - 1;
     int index3 = e.getNode3() - 1;
@@ -440,6 +441,28 @@ public void assemblyb(element e,List<double> localb,List<double> b){
     b[index8] += localb[7];
     b[index9] += localb[8];
     b[index10] += localb[9];
+    
+    b[index1 + nnodes] += localb[10];
+    b[index2 + nnodes] += localb[11];
+    b[index3 + nnodes] += localb[12];
+    b[index4 + nnodes] += localb[13];
+    b[index5 + nnodes] += localb[14];
+    b[index6 + nnodes] += localb[15];
+    b[index7 + nnodes] += localb[16];
+    b[index8 + nnodes] += localb[17];
+    b[index9 + nnodes] += localb[18];
+    b[index10 + nnodes] += localb[19];
+    
+    b[index1 + nnodes2] += localb[20];
+    b[index2+ nnodes2] += localb[21];
+    b[index3+ nnodes2] += localb[22];
+    b[index4+ nnodes2] += localb[23];
+    b[index5+ nnodes2] += localb[24];
+    b[index6+ nnodes2] += localb[25];
+    b[index7+ nnodes2] += localb[26];
+    b[index8+ nnodes2] += localb[27];
+    b[index9+ nnodes2] += localb[28];
+    b[index10+ nnodes2] += localb[29];
     
 
 }
