@@ -75,21 +75,6 @@ public double calculateLocalD(int ind,mesh m){
     return D;
 }
 
-   public void zeroDetector(node n1,node n2){
-        
-        if (n2.getX() - n1.getX()  == 0);
-            {
-                n2.setX(n2.getX() + 0.00001);
-                Console.WriteLine("ZERO");
-            }
-
-      if (n2.getX() + n1.getX()  == 0);
-            {
-                n2.setX(n2.getX() - 0.00001);
-                Console.WriteLine("ZERO");
-            }
-                    
-        }
         
 
            public void checkDelta(ref double n1,ref double delta){
@@ -121,14 +106,14 @@ public void calculateLocalU(int i,Matrix U,mesh m){
 
     node temp = new node();
     
-     double delta = 0.001;
+     double delta = 0.00001;
      double subn1n2 = n2.getX()- n1.getX();
      checkDelta(ref subn1n2,ref delta);
    
 
   
-    double c1 =	 1/ Math.Pow(subn1n2, 2 );
-    double c2 = ( (4 * n1.getX())   + (4 * n2.getX()) - (8 * n8.getX()) )  / (subn1n2 );
+    double c1 =	 (1.0)/(Math.Pow(subn1n2, 2 ));
+    double c2 = ( (4.0 * n1.getX())   + (4.0*n2.getX()) - (8.0 * n8.getX()) )  / (subn1n2 );
 
      checkDelta(ref c1,ref delta);
      checkDelta(ref c2,ref delta);
@@ -138,13 +123,13 @@ public void calculateLocalU(int i,Matrix U,mesh m){
  
    
     //A
-    double n192c2pow2= (192* Math.Pow(c2,2));
-    double n192c2pow3= (192* Math.Pow(c2,3));
-    double n3840c2pow3 = (3840* Math.Pow(c2,3));
-    double n7680c2pow3 = (7680* Math.Pow(c2,3));
-    double n768c2pow3 = (7680* Math.Pow(c2,3));
-    double n96c2pow3 = (96* Math.Pow(c2,3));
-    double n24c2 = 24*c2;
+    double n192c2pow2= (192.0* Math.Pow(c2,2));
+    double n192c2pow3= (192.0* Math.Pow(c2,3));
+    double n3840c2pow3 = (3840.0* Math.Pow(c2,3));
+    double n7680c2pow3 = (7680.0* Math.Pow(c2,3));
+    double n768c2pow3 = (7680.0* Math.Pow(c2,3));
+    double n96c2pow3 = (96.0* Math.Pow(c2,3));
+    double n24c2 = 24.0*c2;
 
     checkDelta(ref n192c2pow2,ref delta);
     checkDelta(ref n192c2pow3,ref delta);
@@ -176,13 +161,13 @@ public void calculateLocalU(int i,Matrix U,mesh m){
                  ;
   
     //C
-    double C = ((4*Math.Pow(c2,2)) / 15) ;
+    double C = ((4.0*Math.Pow(c2,2)) / 15.0) ;
 
     //D
     double D = 	Math.Pow(n4c2 - c1 ,4) / n192c2pow2  - Math.Pow(n4c2 - c1,5)/n3840c2pow3
         +       Math.Pow(n4c2  + n8c1,5)/n7680c2pow3 -  Math.Pow(n4c2  - n8c1,5)/n7680c2pow3
          +      Math.Pow(-n8c1,5)/n768c2pow3 - (c1 * Math.Pow(n4c2 - n8c1 ,4))/n96c2pow3
-        + ((2*c1-1)* Math.Pow((-n8c1),4)) /n192c2pow3 
+        + ((2.0*c1-1.0)* Math.Pow((-n8c1),4)) /n192c2pow3 
         ;
 
     double E =  ((8.0*c1pow2)/3.0) + (c2pow2/30.0);
@@ -193,13 +178,15 @@ public void calculateLocalU(int i,Matrix U,mesh m){
 
     double H =  ((2.0*c1*c2)/(3.0)) + (c2pow2/30.0);
 
-    double I =  -((16.0*c1pow2 )/3)*  - ((2*c2pow2)/3);
+    double I =  -((16.0*c1pow2 )/3.0)*  - ((2.0*c2pow2)/3.0);
 
     double J=  (2.0*c2pow2)/15.0;
 
 
 
-    double K =  -(4/3)*(c1*c2);
+    double K =  -((4.0*c1*c2)/3.0);
+
+
         Console.WriteLine($"c1 {c1} c2 {c2} c2pow2 {c2pow2}");
      Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} ");
      Console.WriteLine();
@@ -230,24 +217,12 @@ public Matrix createLocalK(int element,mesh m,double J){
     Matrix K = new Matrix();
     Matrix U= new Matrix();
     
-
-    //math.zeroes(A,3);
-  //  math.zeroes(U,10,10);
     U = math.MatrixCreate(10,10);
     calculateLocalU(element,U,m);
     K = math.MatrixCreate(30,30);
     fillLocalK(K,U);
-    //showMatrix(K);
-  //  Console.WriteLine(EI);
-   // Console.WriteLine(J);
+
     math.productRealMatrix2(J*EI,K);
-
-
-    //showMatrix(K);
-
-
-   
-   // math.productRealMatrix(EI*Ve/(D*D),math.productMatrixMatrix(Bt,math.productMatrixMatrix(At,math.productMatrixMatrix(A,B,3,3,4),3,3,4),4,3,4),K);
  
     return K;
 }
