@@ -146,15 +146,10 @@ public     double determinant(Matrix M){
         {
             Matrix result = new Matrix(rows);
             for (int i = 0; i < rows; ++i){
-                  //  result[i][i] = 0;
-             //   result.AddRange
+             
                 result.Add(new List<double>(new double[cols]));
             }
-                
-            //result[i] = new double[cols];
-
-          //Console.WriteLine();
-           // Console.WriteLine(result[0].Count);
+ 
            
             return result;
         }     
@@ -162,8 +157,7 @@ public     double determinant(Matrix M){
 
         public    static Matrix MatrixDuplicate(Matrix matrix)
         {
-           
-            Console.WriteLine(matrix[0].Count);
+         
             Matrix result = MatrixCreate(matrix.Count, matrix[0].Count);
             for (int i = 0; i < matrix.Count; ++i) // copy the values
                 for (int j = 0; j < matrix[i].Count; ++j){

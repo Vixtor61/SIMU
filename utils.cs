@@ -128,7 +128,7 @@ class Utils{
             
             
             constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
-            Array.ForEach<string>(constants,Console.WriteLine);
+
             nnodes = int.Parse(constants[0]);
             neltos = int.Parse(constants[1]);
             ndirich= int.Parse(constants[2]);

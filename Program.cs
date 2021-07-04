@@ -13,23 +13,19 @@ namespace polygot
             math math = new math();
             test s =  new test();
           
-            
+
             string filename =  args[0] ?? "test.dat" ;
 
-          
-        //  string filename = "cube.dat";
             List<Matrix> localKs =  new List<Matrix>();
             List<List<double>> localbs  =  new List<List<double>>();
             Matrix K = new Matrix();
-     
-            List<double> T =  new List<double>();
+   
 
             mesh m =  new mesh();
             utils.leerMallayCondiciones(m,filename);
             sel.crearSistemasLocales(m,localKs,localbs);
 
 
-         sel.showbs(localbs);
                   
           
           int nnodes = m.getSize((int)eSizes.NODES);
@@ -37,20 +33,18 @@ namespace polygot
           K =math.MatrixCreate(3*nnodes,3*nnodes);
           
           sel.ensamblaje(m,localKs,localbs,K,b);
-         // sel.showMatrix(K);
+          sel.showMatrix(K);
+
           
            sel.applyNeumann(m,b);
            sel.applyDirichlet(m,K,b);
     
-     
-           math.zeroes(T,b.Count);
+            List<double> T =  new List<double>(new double[b.Count]);
            sel.calculate(K,b,T);
 
-         //   sel.showVector(T);
-           // Console.WriteLine(T.Count);
- 
+           utils.writeResults(m,T,filename);
 
-//            Console.WriteLine("Hello World!");
+
         }
     }
 }
