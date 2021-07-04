@@ -18,7 +18,7 @@ namespace polygot
             List<Matrix> localKs =  new List<Matrix>();
             List<List<double>> localbs  =  new List<List<double>>();
             Matrix K = new Matrix();
-            List<double> b =  new List<double>();
+     
             List<double> T =  new List<double>();
 
             mesh m =  new mesh();
@@ -26,12 +26,12 @@ namespace polygot
             sel.crearSistemasLocales(m,localKs,localbs);
            //sel.showKs(localKs);
             
-            //Console.WriteLine(localKs[]);
-            
+            //Console.WriteLine(localKs[]);            
           
+
+         List<double> b =  new List<double>(new double[m.getSize((int)eSizes.NODES)]);
+            K =math.MatrixCreate(m.getSize((int)eSizes.NODES),m.getSize((int)eSizes.NODES));
             
-            math.zeroes(K,m.getSize((int)eSizes.NODES));
-            math.zeroes(b,m.getSize((int)eSizes.NODES));
             sel.ensamblaje(m,localKs,localbs,K,b);
            //   Console.WriteLine(localKs[0][29][29]);
 

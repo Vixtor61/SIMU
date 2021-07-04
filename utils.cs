@@ -1,8 +1,9 @@
 
-using System.IO;
 using System.Collections.Generic;
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
+using System.IO;
 namespace polygot
 {
     using Matrix = List<List<double>>;
@@ -156,17 +157,18 @@ class Utils{
             return false;
         }
 
-        public void writeResults(mesh m,List<double> T,string filename){
+        public async Task writeResults(mesh m,List<double> T,string filename){
             String outputfilename;
+            outputfilename = filename + "post.res";
+            using StreamWriter file = new(outputfilename);
+        await file.WriteLineAsync("Fourth line");
             int[] dirich_indices = m.getDirichletIndices();
             condition[] dirich = m.getDirichlet();
-            ofstream file;
+         
 
          //   addExtension(outputfilename,filename,".post.res");
-            file.open(outputfilename);
-
-            file << "GiD Post Results File 1.0\n";
-            file << "Result \"Temperature\" \"Load Case 1\" 1 Scalar OnNodes\nComponentNames \"T\"\nValues\n";
+             await file.WriteLineAsync("GiD Post Results File 1.0\n");
+            await file.WriteLineAsync("Result \"Temperature\" \"Load Case 1\" 1 Scalar OnNodes\nComponentNames \"T\"\nValues\n");
 
             int Tpos = 0;
             int Dpos = 0;
@@ -174,17 +176,15 @@ class Utils{
             int nd = m.getSize((int)eSizes.DIRICHLET );
             for(int i=0;i<n;i++){
                 if(findIndex(i+1,nd,dirich_indices)){
-                    file << i+1 << " " << dirich[Dpos].getValue() << "\n";
+                    await file.WriteLineAsync($"{i+1} {dirich[Dpos].getValue()}");
                     Dpos++;
                 }else{
-                    file << i+1 << " " << T.at(Tpos) << "\n";
+                  
+                    await file.WriteLineAsync($"{i+1} {T[Tpos]}");
                     Tpos++;
                 }
             }
-
-            file << "End values\n";
-
-            file.close();
+            await file.WriteLineAsync("End values");
         }
 
 

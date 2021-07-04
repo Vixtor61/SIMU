@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
+
+
 namespace polygot
 {
     using Matrix = List<List<double>>;
@@ -278,10 +280,11 @@ public double calculateLocalJ(int ind,mesh m){
 }
 
 public List<double> createLocalb(int element,mesh m,double J){
-    List<double> b = new List<double>();
+    List<double> b = new List<double>(new double[30]);
     Matrix M = new Matrix();
-    math.zeroes(b,30);
-    math.zeroes(M,30,3);
+   // math.zeroes(b,30);
+    M=math.MatrixCreate(30,30);
+    //math.zeroes(M,30,3);
     List<double> t = new List<double>();
     
     

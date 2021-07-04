@@ -23,6 +23,7 @@ namespace polygot
 
        public void zeroes(List<double> v,int n){
             v = new List<double>(new double[n]);
+            
         }
 
      public   void copyMatrix(Matrix A, Matrix copy){
