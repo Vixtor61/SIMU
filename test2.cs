@@ -7,11 +7,6 @@ namespace polygot
     class test2
     {
 
-    
-    public void hi(){
-
-        Console.WriteLine("hi");
-    }
   public static Matrix MatrixCreate(int rows, int cols)
         {
             
@@ -59,7 +54,7 @@ namespace polygot
             return result;
         }
 
-      public   static Matrix MatrixInverse(Matrix matrix)
+      public    Matrix MatrixInverse(Matrix matrix)
         {
             int n = matrix.Count;
             Matrix result = MatrixDuplicate(matrix);

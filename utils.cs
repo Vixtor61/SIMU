@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 namespace polygot
 {
+
     using Matrix = List<List<double>>;
 class Utils{
         public int obtenerDatos(string[] filelines,eLines nlines,int n,eModes mode,item[] item_list,int lineCont){
@@ -19,7 +20,7 @@ class Utils{
                 case eModes.INT_FLOAT:
 
                    
-                    constants = filelines[lineCont++].Split(" ");
+                    constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
                     int e0; double r0;
                      
                     e0 = int.Parse(constants[0]);
@@ -30,7 +31,7 @@ class Utils{
                     break;
                 case eModes.INT_FLOAT_FLOAT_FLOAT:
                 
-                 constants = filelines[lineCont++].Split(" ");
+                 constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
                     int e; double r,rr,rrr;
                      
                      e = int.Parse(constants[0]);
@@ -43,8 +44,10 @@ class Utils{
                     (double)eIndicator.NOTHING);
                     break;
                 case eModes.INT_INT_INT_INT_INT:
-                    constants = filelines[lineCont++].Split(" ");
+                    constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
                     int e1,e2, e3,e4,e5,e6,e7,e8,e9,e10,e11;
+
+                    
                  
                     e1 = int.Parse(constants[0]);
                     e2 = int.Parse(constants[1]);
@@ -114,15 +117,18 @@ class Utils{
             List<double> f = new List<double>() ;
             int nnodes,neltos,ndirich,nneu;
 
- 
-            string[] constants = filelines[lineCont++].Split(" ");
+    
+            string[] constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
              EI= double.Parse( constants[0]) ;
 
              f.Add(-24);
              f.Add(-99);
              f.Add(-12);
 
-            constants = filelines[lineCont++].Split(" ");
+            
+            
+            constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
+            Array.ForEach<string>(constants,Console.WriteLine);
             nnodes = int.Parse(constants[0]);
             neltos = int.Parse(constants[1]);
             ndirich= int.Parse(constants[2]);

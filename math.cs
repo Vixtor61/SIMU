@@ -3,6 +3,12 @@ using System;
 
 namespace polygot
 {
+    /*
+    public class math :  List<List<double>>
+    {
+        
+    }
+    */
     using Matrix = List<List<double>>;
    
    public class math
