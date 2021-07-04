@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace polygot
 {
+    using Matrix = List<List<double>>;
     class Program
     {
         static void Main(string[] args)
@@ -42,8 +43,8 @@ namespace polygot
 
 
      
-         //   math.zeroes(T,b.Count);
-         //   sel.calculate(K,b,T);
+           math.zeroes(T,b.Count);
+           sel.calculate(K,b,T);
 
          //   sel.showVector(T);
            // Console.WriteLine(T.Count);

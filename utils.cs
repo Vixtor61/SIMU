@@ -2,9 +2,10 @@
 using System.IO;
 using System.Collections.Generic;
 using System;
+using System.Numerics;
 namespace polygot
 {
-
+    using Matrix = List<List<double>>;
 class Utils{
         public int obtenerDatos(string[] filelines,eLines nlines,int n,eModes mode,item[] item_list,int lineCont){
          string[] constants = {};
@@ -12,12 +13,10 @@ class Utils{
             if(nlines==eLines.DOUBLELINE) lineCont++;
 
             for(int i=0;i<n;i++){
-               //Console.WriteLine($"Line cont{lineCont}");
 
                 switch(mode){
                 case eModes.INT_FLOAT:
-                   
-                    //Array.ForEach<string>()
+
                    
                     constants = filelines[lineCont++].Split(" ");
                     int e0; double r0;
@@ -31,11 +30,8 @@ class Utils{
                 case eModes.INT_FLOAT_FLOAT_FLOAT:
                 
                  constants = filelines[lineCont++].Split(" ");
-              //   Console.WriteLine(filelines[lineCont]);
-               //  Console.WriteLine(lineCont);
                     int e; double r,rr,rrr;
-                 
-                
+                     
                      e = int.Parse(constants[0]);
                     r = double.Parse(constants[1]);
                     rr = double.Parse(constants[2]);
@@ -75,7 +71,7 @@ class Utils{
 
         public void correctConditions(int n,condition[] list,int[] indices){
   
-           // Array.ForEach<int>(indices, Console.WriteLine);
+
          
             for(int i=0;i<n;i++){
 
@@ -88,8 +84,6 @@ class Utils{
             for(int i=0;i<n-1;i++){
                 int pivot = list[i].getNode1();
                 for(int j=i;j<n;j++)
-                    //Si la condición actual corresponde a un nodo posterior al nodo eliminado por
-                    //aplicar la condición anterior, se debe actualizar su posición.
                     if(list[j].getNode1()>pivot)
                         list[j].setNode1(list[j].getNode1()-1);
             }
@@ -127,14 +121,6 @@ class Utils{
              f.Add(-99);
              f.Add(-12);
 
-            
-            //constants = filelines[lineCont++].Split(" ");
-          //  f.Add(double.Parse(constants[0]));
-           // f.Add(double.Parse(constants[1]));
-            //f.Add(double.Parse(constants[2]));
-
-
-
             constants = filelines[lineCont++].Split(" ");
             nnodes = int.Parse(constants[0]);
             neltos = int.Parse(constants[1]);
@@ -152,7 +138,7 @@ class Utils{
             
             lineCont = obtenerDatos(filelines,eLines.SINGLELINE,nnodes,eModes.INT_FLOAT_FLOAT_FLOAT,m.getNodes(),lineCont );
             lineCont++;
-            //Console.WriteLine($"contadorr {lineCont} " );
+       
             lineCont = obtenerDatos(filelines,eLines.DOUBLELINE,neltos,eModes.INT_INT_INT_INT_INT,m.getElements(),lineCont);
             lineCont++;
             lineCont = obtenerDatos(filelines,eLines.DOUBLELINE,ndirich,eModes.INT_FLOAT,m.getDirichlet(),lineCont);
@@ -161,24 +147,6 @@ class Utils{
             
             
           
-
-            //Se corrigen los índices en base a las filas que serán eliminadas
-            //luego de aplicar las condiciones de Dirichlet
-         
-            /*
-       
-            foreach (node i in m.getNodes())
-                {
-                    System.Console.WriteLine("{0} {1} {2} {3}", i.getId(), i.getX() ,i.getY(),i.getZ() );
-                }
-
-
-                   Console.WriteLine("elemtes");
-                        foreach (element i in m.getElements())
-                {
-                    System.Console.WriteLine("{0} {1} {2} {3}", i.getNode1(), i.getNode2() ,i.getNode3(),i.getNode4() );
-                }
-           */
             correctConditions(ndirich,m.getDirichlet(),m.getDirichletIndices());
         }
 
@@ -187,7 +155,7 @@ class Utils{
                 if(arr[i]==v) return true;
             return false;
         }
-/*
+
         public void writeResults(mesh m,List<double> T,string filename){
             String outputfilename;
             int[] dirich_indices = m.getDirichletIndices();
@@ -220,6 +188,6 @@ class Utils{
         }
 
 
-*/
+
 }
 }

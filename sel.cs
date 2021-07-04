@@ -2,7 +2,7 @@
 using System;
 namespace polygot
 {
-
+    using Matrix = List<List<double>>;
 class sel{
    math math = new math();
  public void showMatrix(Matrix K){
@@ -537,31 +537,17 @@ public void applyDirichlet(mesh m,Matrix K,List<double> b){
 public void calculate(Matrix K, List<double> b, List<double> T){
     Console.WriteLine("Iniciando calculo de respuesta...\n");
     Matrix Kinv = new Matrix();
-    Matrix Kinv2 = new Matrix();
+  //  Matrix Kinv2 = new Matrix();
       Console.Write("Calculo de la inversa\n");
       
       Random r =  new Random();
-    Matrix P = new Matrix();
-    math.zeroes(P,100);
-    for (int i = 0; i < P.Count; i++)
-    {
-        for (int j = 0; j < P.Count; j++)
-        {
-            P[i][j] =r.Next(50, 101);
-        }
-    }
     //showMatrix(K);
     Console.WriteLine();
-    test2 test2 = new test2();
-    Kinv = test2.MatrixInverse(P);
-
-    showMatrix(Kinv);
-    Console.WriteLine("SDf");
-    math.inverseMatrix(P,Kinv2);
+ 
+    math.inverseMatrix(K,Kinv);
     Console.WriteLine();
-     showMatrix(Kinv2);
-    Console.Write("Caclulo de la inversa\n");
-   // math.productMatrixVector(Kinv,b,T);
+
+   math.productMatrixVector(Kinv,b,T);
 }
 }
 }
