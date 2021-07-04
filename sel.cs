@@ -42,9 +42,10 @@ public void showKs(List<Matrix> Ks){
 public void showVector(List<double> b){
     Console.Write("\t");
     for(int i=0;i<b.Count;i++){
-        Console.Write($"{b[i]}\t" );
+         Console.Write("{0:N2}  ", b[i]);
+       
     }
-    Console.Write("\t");
+    Console.Write("\n");
 }
 
 public void showbs(List<List<double>> bs){
@@ -55,25 +56,7 @@ public void showbs(List<List<double>> bs){
     }
 }
 
-public double calculateLocalD(int ind,mesh m){
-    double D,a,b,c,d,e,f,g,h,i;
 
-    element el = m.getElement(ind);
-
-    node n1 = m.getNode(el.getNode1()-1);
-    node n2 = m.getNode(el.getNode2()-1);
-    node n3 = m.getNode(el.getNode3()-1);
-    node n4 = m.getNode(el.getNode4()-1);
-
-    a=n2.getX()-n1.getX();b=n2.getY()-n1.getY();c=n2.getZ()-n1.getZ();
-    d=n3.getX()-n1.getX();e=n3.getY()-n1.getY();f=n3.getZ()-n1.getZ();
-    g=n4.getX()-n1.getX();h=n4.getY()-n1.getY();i=n4.getZ()-n1.getZ();
-    //Se calcula el determinante de esta matriz utilizando
-    //la Regla de Sarrus.
-    D = a*e*i+d*h*c+g*b*f-g*e*c-a*h*f-d*b*i;
-
-    return D;
-}
 
         
 
@@ -82,8 +65,7 @@ public double calculateLocalD(int ind,mesh m){
                 if ((Math.Abs(n1) ) < delta )
                 {
                     n1 = delta;
-                  //  Console.WriteLine("shit");
-                   // Console.WriteLine("shit");
+       
                 }
     
         }
@@ -106,7 +88,7 @@ public void calculateLocalU(int i,Matrix U,mesh m){
 
     node temp = new node();
     
-     double delta = 0.00001;
+     double delta = 0.0000001;
      double subn1n2 = n2.getX()- n1.getX();
      checkDelta(ref subn1n2,ref delta);
    
@@ -188,7 +170,7 @@ public void calculateLocalU(int i,Matrix U,mesh m){
 
 
         Console.WriteLine($"c1 {c1} c2 {c2} c2pow2 {c2pow2}");
-     Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} ");
+     Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} K{K} ");
      Console.WriteLine();
     U[0][0] = A;U[0][1] = E;U[0][4] = -F;U[0][6] = -F;U[0][7] = G;U[0][8] = F;U[0][9] = F;
     U[1][0] = E;U[1][1] = B;U[1][4] = -H;U[1][6] = -H;U[1][7] = I;U[1][8] = H;U[1][9] = H;
@@ -279,41 +261,20 @@ public List<double> createLocalb(int element,mesh m,double J){
     
     
 // Q 4.5
-	M[0][0] = 59.0;M[0][1] = 59.0;M[0][2] = 59.0;
-	M[1][0] = -1.0;M[1][1] = -1.0;M[1][2] = -1.0;
-	M[2][0] = -1.0;M[2][1] = -1.0;M[2][2] = -1.0;
-	M[3][0] = -1.0;M[3][1] = -1.0;M[3][2] = -1.0;
-	M[4][0] =  4.0;M[4][1] =  4.0;M[4][2] =  4.0;
-	M[5][0] =  4.0;M[5][1] =  4.0;M[5][2] =  4.0;
-	M[6][0] =  4.0;M[6][1] =  4.0;M[6][2] =  4.0;
-	M[7][0] =  4.0;M[7][1] =  4.0;M[7][2] =  4.0;
-	M[8][0] =  4.0;M[8][1] =  4.0;M[8][2] =  4.0;
-	M[9][0] =  4.0;M[9][1] =  4.0;M[9][2] =  4.0;
+	M[0][0] = 59.0;M[10][1] = 59.0;M[20][2] = 59.0;
+	M[1][0] = -1.0;M[11][1] = -1.0;M[21][2] = -1.0;
+	M[2][0] = -1.0;M[12][1] = -1.0;M[22][2] = -1.0;
+	M[3][0] = -1.0;M[13][1] = -1.0;M[23][2] = -1.0;
+	M[4][0] =  4.0;M[14][1] =  4.0;M[24][2] =  4.0;
+	M[5][0] =  4.0;M[15][1] =  4.0;M[25][2] =  4.0;
+	M[6][0] =  4.0;M[16][1] =  4.0;M[26][2] =  4.0;
+	M[7][0] =  4.0;M[17][1] =  4.0;M[27][2] =  4.0;
+	M[8][0] =  4.0;M[18][1] =  4.0;M[28][2] =  4.0;
+	M[9][0] =  4.0;M[19][1] =  4.0;M[29][2] =  4.0;
 
-	M[10][0] = 59.0;M[10][1] = 59.0;M[10][2] = 59.0;
-	M[11][0] = -1.0;M[11][1] = -1.0;M[11][2] = -1.0;
-	M[12][0] = -1.0;M[12][1] = -1.0;M[12][2] = -1.0;
-	M[13][0] = -1.0;M[13][1] = -1.0;M[13][2] = -1.0;
-	M[14][0] =  4.0;M[14][1] =  4.0;M[14][2] =  4.0;
-	M[15][0] =  4.0;M[15][1] =  4.0;M[15][2] =  4.0;
-	M[16][0] =  4.0;M[16][1] =  4.0;M[16][2] =  4.0;
-	M[17][0] =  4.0;M[17][1] =  4.0;M[17][2] =  4.0;
-	M[18][0] =  4.0;M[18][1] =  4.0;M[18][2] =  4.0;
-	M[19][0] =  4.0;M[19][1] =  4.0;M[19][2] =  4.0;
-
-	M[20][0] = 59.0;M[20][1] = 59.0;M[20][2] = 59;
-	M[21][0] = -1.0;M[21][1] = -1.0;M[21][2] = -1.0;
-	M[22][0] = -1.0;M[22][1] = -1.0;M[22][2] = -1.0;
-	M[23][0] = -1.0;M[23][1] = -1.0;M[23][2] = -1.0;
-	M[24][0] =  4.0;M[24][1] =  4.0;M[24][2] =  4.0;
-	M[25][0] =  4.0;M[25][1] =  4.0;M[25][2] =  4.0;
-	M[26][0] =  4.0;M[26][1] =  4.0;M[26][2] =  4.0;
-	M[27][0] =  4.0;M[27][1] =  4.0;M[27][2] =  4.0;
-	M[28][0] =  4.0;M[28][1] =  4.0;M[28][2] =  4.0;
-	M[29][0] =  4.0;M[29][1] =  4.0;M[29][2] =  4.0;
 	
 	math.productMatrixVector(M,m.getF(),b);
-    double c = J/120;
+    double c = J/120.0;
 	for (int i = 0; i < b.Count; i++)
     {
         b[i] = c*b[i];
@@ -448,8 +409,6 @@ public void ensamblaje(mesh m,List<Matrix> localKs,List<List<double>> localbs,Ma
         assemblyK(e,localKs[i],K);
         assemblyb(e,localbs[i],b);
     }
-
-   
 }
 
 public void applyNeumann(mesh m,List<double> b){
@@ -489,7 +448,7 @@ public void calculate(Matrix K, List<double> b, List<double> T){
 
     Console.WriteLine();
     test2 test = new test2();
-    Kinv = test.MatrixInverse(K);
+    //Kinv = test.MatrixInverse(K);
     math.inverseMatrix(K,Kinv);
     Console.WriteLine();
 

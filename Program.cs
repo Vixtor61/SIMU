@@ -29,7 +29,7 @@ namespace polygot
             sel.crearSistemasLocales(m,localKs,localbs);
 
 
-      //   sel.showKs(localKs);
+         sel.showbs(localbs);
                   
           
           int nnodes = m.getSize((int)eSizes.NODES);
