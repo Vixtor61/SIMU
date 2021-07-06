@@ -173,7 +173,7 @@ namespace polygot
               //    Console.WriteLine((Math.Pow(n4c1 + n3c2, 5.0) / (n3840c2pow3)));
                   Console.WriteLine($"constants c1 {c1} c2 {c2} ");
             Console.WriteLine($"x1 {x_1} x2 {x_2} ");
-            Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} K{K} ");
+            Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} K {K} ");
             }
           
         
