@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
-
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace polygot
 {
@@ -72,7 +73,7 @@ namespace polygot
 
 
             element e = m.getElement(i);
-            //calculate c
+         
             node n1 = m.getNode(e.getNode1() - 1);
             node n2 = m.getNode(e.getNode2() - 1);
             node n3 = m.getNode(e.getNode3() - 1);
@@ -84,30 +85,35 @@ namespace polygot
             node n9 = m.getNode(e.getNode9() - 1);
             node n10 = m.getNode(e.getNode10() - 1);
 
-            node temp = new node();
-
             double delta = 0.0000001;
-            double subn1n2 = n2.getX() - n1.getX();
-            checkDelta(ref subn1n2, ref delta);
+
+            double x_1 =  n1.getX();
+            double x_2 =  n2.getX();
+            double x_8 =  n8.getX();
+            double subn1n2 = x_2 - x_1;
+            checkDelta(ref subn1n2, ref delta); // checks if the substraction between n2_x and n1_x is 0
+
+            // calculate c1 and c2 using n1_x n2_x n8_x
+         
+
+            double c1 = (1.0) / (Math.Pow(subn1n2, 2));//c1
+            double c2 = ((4.0 * x_1) + (4.0 * x_2) - (8.0 * x_8)) / (subn1n2);//c2
 
 
-
-            double c1 = (1.0) / (Math.Pow(subn1n2, 2));
-            double c2 = ((4.0 * n1.getX()) + (4.0 * n2.getX()) - (8.0 * n8.getX())) / (subn1n2);
-
+            
+            
             checkDelta(ref c1, ref delta);
             checkDelta(ref c2, ref delta);
 
+            double n192c2pow2 = (192.0 * Math.Pow(c2, 2.0));
+            double n192c2pow3 = (192.0 * Math.Pow(c2, 3.0));
+            double n3840c2pow3 = (3840.0 * Math.Pow(c2, 3.0));
 
-       //     Console.WriteLine($"c1 {c1} c2 {c2} node1 {n1.getX()} node2 {n2.getX()} node8 {n8.getX()} elements {i} test { 4 * n1.getX() + 4 * n2.getX() - 8 * n8.getX()} ");
 
-            //A
-            double n192c2pow2 = (192.0 * Math.Pow(c2, 2));
-            double n192c2pow3 = (192.0 * Math.Pow(c2, 3));
-            double n3840c2pow3 = (3840.0 * Math.Pow(c2, 3));
-            double n7680c2pow3 = (7680.0 * Math.Pow(c2, 3));
-            double n768c2pow3 = (7680.0 * Math.Pow(c2, 3));
-            double n96c2pow3 = (96.0 * Math.Pow(c2, 3));
+
+            double n7680c2pow3 = (7680.0 * Math.Pow(c2, 3.0));
+            double n768c2pow3 = (7680.0 * Math.Pow(c2, 3.0));
+            double n96c2pow3 = (96.0 * Math.Pow(c2, 3.0));
             double n24c2 = 24.0 * c2;
 
             checkDelta(ref n192c2pow2, ref delta);
@@ -125,23 +131,22 @@ namespace polygot
 
             double c1pow2 = Math.Pow(c1, 2);
             double c2pow2 = Math.Pow(c2, 2);
+          
 
-            double A = -Math.Pow(n4c1 - c2, 4) / n192c2pow2 - Math.Pow(n4c1 - c2, 3) / n24c2
-                         - Math.Pow(n4c1 - c2, 5) / n3840c2pow3 + Math.Pow(n4c1 + n3c2, 5) / (n3840c2pow3)
-                         ;
-
+            double A = (-Math.Pow(n4c1 - c2, 4.0) / n192c2pow2) - (Math.Pow(n4c1 - c2, 3.0) / n24c2)  - (Math.Pow(n4c1 - c2, 5.0) / n3840c2pow3 )+ ((Math.Pow(n4c1 + n3c2, 5.0) / (n3840c2pow3)));
 
 
-            double B = -Math.Pow(n4c1 + c2, 4) / n192c2pow2 + Math.Pow(n4c1 + c2, 3) / n24c2
-                         + Math.Pow(n4c1 + c2, 5) / (n3840c2pow3) - Math.Pow(n4c1 - n3c2, 5) / n3840c2pow3
+
+            double B = -Math.Pow(n4c1 + c2, 4.0) / n192c2pow2 + Math.Pow(n4c1 + c2, 3) / n24c2
+                         + Math.Pow(n4c1 + c2, 5.0) / (n3840c2pow3) - Math.Pow(n4c1 - n3c2, 5.0) / n3840c2pow3
                          ;
 
             //C
             double C = ((4.0 * Math.Pow(c2, 2)) / 15.0);
 
             //D
-            double D = Math.Pow(n4c2 - c1, 4) / n192c2pow2 - Math.Pow(n4c2 - c1, 5) / n3840c2pow3
-                + Math.Pow(n4c2 + n8c1, 5) / n7680c2pow3 - Math.Pow(n4c2 - n8c1, 5) / n7680c2pow3
+            double D = (Math.Pow(n4c2 - c1, 4) / n192c2pow2) - (Math.Pow(n4c2 - c1, 5.0) / n3840c2pow3)
+                + (Math.Pow(n4c2 + n8c1, 5) / n7680c2pow3) -( (7.0*Math.Pow(n4c2 - n8c1, 5) )/ n7680c2pow3)
                  + Math.Pow(-n8c1, 5) / n768c2pow3 - (c1 * Math.Pow(n4c2 - n8c1, 4)) / n96c2pow3
                 + ((2.0 * c1 - 1.0) * Math.Pow((-n8c1), 4)) / n192c2pow3
                 ;
@@ -154,7 +159,7 @@ namespace polygot
 
             double H = ((2.0 * c1 * c2) / (3.0)) + (c2pow2 / 30.0);
 
-            double I = -((16.0 * c1pow2) / 3.0) * -((2.0 * c2pow2) / 3.0);
+            double I = -((16.0 * c1pow2) / 3.0)  -((2.0 * c2pow2) / 3.0);
 
             double J = (2.0 * c2pow2) / 15.0;
 
@@ -162,8 +167,16 @@ namespace polygot
 
             double K = -((4.0 * c1 * c2) / 3.0);
 
-
-        //    Console.WriteLine($"c1 {c1} c2 {c2} c2pow2 {c2pow2}");
+            if (i==3)
+            {
+                
+              //    Console.WriteLine((Math.Pow(n4c1 + n3c2, 5.0) / (n3840c2pow3)));
+                  Console.WriteLine($"constants c1 {c1} c2 {c2} ");
+            Console.WriteLine($"x1 {x_1} x2 {x_2} ");
+            Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} K{K} ");
+            }
+          
+        
       //      Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} K{K} ");
         //    Console.WriteLine();
             U[0][0] = A; U[0][1] = E; U[0][4] = -F; U[0][6] = -F; U[0][7] = G; U[0][8] = F; U[0][9] = F;
@@ -211,14 +224,11 @@ namespace polygot
                 for (int j = 0; j < Usize; j++)
                 {
                     //Console.WriteLine($"{i} {j}       {i + Usize} {j+Usizex2}       {i}{j+Usizex2}");
-                    /*
+                    
                     K[i][j] = U[i][j];
                     K[i + Usize][j+Usize] = U[i][j];
                     K[i + Usizex2][j+ Usizex2] = U[i][j];
-        */
-                    K[i][j] = 5.0;
-                    K[i + Usize][j + Usize] = 5.0;
-                    K[i + Usizex2][j + Usizex2] = 5.0;
+    
 
                 }
             }
@@ -447,6 +457,28 @@ namespace polygot
 
         public void calculate(Matrix K, List<double> b, List<double> T)
         {
+
+            Matrix<double> A = DenseMatrix.OfArray(new double[K.Count,K.Count]);
+            for (int i = 0; i < K.Count; i++)
+            {
+                for (int j = 0; j < K.Count; j++)
+                {
+                    //Console.Write( K[i][j]);
+                    A[i,j] = K[i][j];
+                }   
+            }
+
+           
+        
+            A= A.Inverse();
+             for (int i = 0; i < K.Count; i++)
+            {
+                for (int j = 0; j < K.Count; j++)
+                {
+
+                  // Console.Write(A[i,j]);
+                }   
+            }
             Console.WriteLine("Iniciando calculo de respuesta...\n");
             Matrix Kinv = new Matrix();
             //  Matrix Kinv2 = new Matrix();
@@ -455,9 +487,12 @@ namespace polygot
 
             Console.WriteLine();
             test2 test = new test2();
-            Kinv = test.MatrixInverse(K);
+          //  Kinv = test.MatrixInverse(K);
             math.inverseMatrix(K, Kinv);
-            Console.WriteLine();
+            Console.WriteLine(K[0].Count);
+               Console.WriteLine(b.Count);
+
+            Console.WriteLine(T.Count);
 
             math.productMatrixVector(Kinv, b, T);
         }

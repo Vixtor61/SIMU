@@ -165,7 +165,7 @@ class Utils{
 
         public async Task writeResults(mesh m,List<double> T,string filename){
             String outputfilename;
-            outputfilename = filename + "post.res";
+            outputfilename = filename + ".post.res";
             using StreamWriter file = new(outputfilename);
         await file.WriteLineAsync("Fourth line");
             int[] dirich_indices = m.getDirichletIndices();
@@ -178,7 +178,7 @@ class Utils{
 
             int Tpos = 0;
             int Dpos = 0;
-            int n = m.getSize((int)eSizes.NODES);
+            int n =  3* (m.getSize((int)eSizes.NODES));
             int nd = m.getSize((int)eSizes.DIRICHLET );
             for(int i=0;i<n;i++){
                 if(findIndex(i+1,nd,dirich_indices)){

@@ -26,19 +26,29 @@ namespace polygot
             sel.crearSistemasLocales(m,localKs,localbs);
 
 
-                  
+          //  sel.showbs(localbs);  
+         // sel.showKs(localKs);
           
           int nnodes = m.getSize((int)eSizes.NODES);
            List<double> b =  new List<double>(new double[3*nnodes]);
           K =math.MatrixCreate(3*nnodes,3*nnodes);
           
           sel.ensamblaje(m,localKs,localbs,K,b);
-          sel.showMatrix(K);
+        //  sel.showMatrix(K);
 
           
            sel.applyNeumann(m,b);
            sel.applyDirichlet(m,K,b);
-    
+            Console.WriteLine("sfasdfs");
+            Console.WriteLine(K.Count);
+            Console.WriteLine(b.Count);
+//            sel.showMatrix(b);
+
+            for (int i = 0; i < b.Count; i++)
+            {
+               // Console.WriteLine(b[i]);
+            }
+          // Array.ForEach<double>(b, Console.WriteLine);
             List<double> T =  new List<double>(new double[b.Count]);
            sel.calculate(K,b,T);
 
