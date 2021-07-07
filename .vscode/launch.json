@@ -28,7 +28,7 @@
             "WARNING17": "*********************************************************************************",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/bin/Debug/net5.0/polygot.dll",
-            "args": [],
+            "args": ["test.dat"],
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "stopAtEntry": false
