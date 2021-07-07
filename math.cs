@@ -32,14 +32,6 @@ namespace polygot
 
         }
 
-        public void copyMatrix(Matrix A, Matrix copy)
-        {
-            zeroes(copy, A.Count);
-            for (int i = 0; i < A.Count; i++)
-                for (int j = 0; j < A[0].Count; j++)
-                    copy[i][j] = A[i][j];
-        }
-
         public double calculateMember(int i, int j, int r, Matrix A, Matrix B)
         {
             double member = 0;
@@ -50,9 +42,8 @@ namespace polygot
 
         public Matrix productMatrixMatrix(Matrix A, Matrix B, int n, int r, int m)
         {
-            Matrix R = new Matrix();
+            Matrix R = MatrixCreate(n,m);
 
-            zeroes(R, n, m);
             for (int i = 0; i < n; i++)
                 for (int j = 0; j < m; j++)
                     R[i][j] = calculateMember(i, j, r, A, B);
@@ -105,7 +96,7 @@ namespace polygot
                 {
 
                     Matrix minor = new Matrix();
-                    copyMatrix(M, minor);
+                    minor = MatrixDuplicate(M);
                     getMinor(minor, 0, i);
                     det += (Math.Pow(-1, i)) * (M[0][i] * determinant(minor));
                 }
@@ -123,7 +114,6 @@ namespace polygot
                 {
                     Matrix minor = new Matrix();
                     minor = MatrixDuplicate(M);
-                    //copyMatrix(M,minor);
                     getMinor(minor, i, j);
                     Cof[i][j] = (double)Math.Pow(-1, i + j) * determinant(minor);
                 }
