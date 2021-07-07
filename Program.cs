@@ -43,10 +43,6 @@ namespace polygot
 
             sel.applyNeumann(m, b);
 
-            for (int i = 0; i < b.Count; i++)
-            {
-                // Console.WriteLine(b[i]);
-            }
             // Array.ForEach<double>(b, Console.WriteLine);
             List<double> T = new List<double>(new double[b.Count]);
             sel.calculate(K, b, T);

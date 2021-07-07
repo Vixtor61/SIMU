@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System;
 using System.Numerics;
@@ -25,7 +24,7 @@ namespace polygot
                 int e0; double r0;
 
                 e0 = int.Parse(constants[0]);
-                Console.WriteLine(e0);
+ 
                 r0 = double.Parse(constants[1]);
                 item_list[i].setValues((int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING,
                 e0, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING,
@@ -34,14 +33,14 @@ namespace polygot
             }
             int a = dirichx;
             int b = dirichy + dirichx;
-            Console.WriteLine();
+
             for (int i = a; i < b; i++)
             {
                 constants = filelines[lineCont++].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 int e0; double r0;
                 e0 = int.Parse(constants[0]) + nnodes;
                 r0 = double.Parse(constants[1]);
-                Console.WriteLine(e0);
+
                 item_list[i].setValues((int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING,
                 e0, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING,
                 r0);
@@ -49,14 +48,14 @@ namespace polygot
             }
             a = b;
             b = b + dirichz;
-            Console.WriteLine();
+
             for (int i = a; i < b; i++)
             {
                 constants = filelines[lineCont++].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 int e0; double r0;
 
                 e0 = int.Parse(constants[0]) + nnodes2;
-                Console.WriteLine(e0);
+
                 r0 = double.Parse(constants[1]);
                 item_list[i].setValues((int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING,
                 e0, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING, (int)eIndicator.NOTHING,
@@ -155,7 +154,7 @@ namespace polygot
             int nnodes, neltos, ndirich, nneu;
 
             string[] constants = filelines[lineCont++].Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);// splits values on the line
-            Array.ForEach<string>(constants, Console.WriteLine);
+            //Array.ForEach<string>(constants, Console.WriteLine);
             EI = double.Parse(constants[0]);
 
             f.Add(double.Parse(constants[1]));//f_x

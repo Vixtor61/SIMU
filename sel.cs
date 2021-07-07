@@ -195,7 +195,7 @@ namespace polygot
             fillLocalK(K, U);
 
             double constant = EI * J;
-            Console.WriteLine(constant);
+
             math.productRealMatrix2(constant, K);
 
             return K;
@@ -213,8 +213,6 @@ namespace polygot
             {
                 for (int j = 0; j < Usize; j++)
                 {
-                    //Console.WriteLine($"{i} {j}       {i + Usize} {j+Usizex2}       {i}{j+Usizex2}");
-
                     K[i][j] = U[i][j];
                     K[i + Usize][j + Usize] = U[i][j];
                     K[i + Usizex2][j + Usizex2] = U[i][j];
@@ -292,7 +290,7 @@ namespace polygot
 
             //a index
             int nnodes = K.Count / 3;
-            int nindex = 10;
+            const int nindex = 10;
             int eid = e.getId();
             int index1 = e.getNode1() - 1;
             int index2 = e.getNode2() - 1;
@@ -316,23 +314,17 @@ namespace polygot
             indexs[8] = index9;
             indexs[9] = index10;
 
-            for (int i = 10; i < 20; i++)
+            //creates global indexes for this elements
+            for (int i = nindex; i < (nindex * 2); i++)
             {
-                indexs[i] = indexs[i - 10] + nnodes;
+                indexs[i] = indexs[i - nindex] + nnodes;
             }
-            for (int i = 20; i < 30; i++)
+            for (int i = (nindex *2); i < (nindex * 3); i++)
             {
-                indexs[i] = indexs[i - 20] + 2 * nnodes;
+                indexs[i] = indexs[i - (nindex * 2)] + 2 * nnodes;
             }
 
-
-            for (int i = 0; i < 30; i++)
-            {
-                //   Console.Write($"{indexs[i]} ");
-            }
-            //  Console.WriteLine();
-
-
+            //assembles global k
             for (int i = 0; i < localK.Count; i++)
             {
                 for (int j = 0; j < localK.Count; j++)
@@ -345,9 +337,6 @@ namespace polygot
                 }
 
             }
-
-
-
 
         }
 
@@ -450,7 +439,6 @@ namespace polygot
             {
                 for (int j = 0; j < K.Count; j++)
                 {
-                    //Console.Write( K[i][j]);
                     A[i, j] = K[i][j];
                 }
             }
@@ -466,11 +454,11 @@ namespace polygot
             {
                 for (int j = 0; j < K.Count; j++)
                 {
-                    //Console.Write( K[i][j]);
+                
                     Kinv[i][j] = A[i, j];
                 }
             }
-            //  Matrix Kinv2 = new Matrix();
+         
             Console.Write("Calculo de la inversa\n");
 
 
@@ -478,10 +466,7 @@ namespace polygot
 
             //   Kinv = test.MatrixInverse(K);
             //   math.inverseMatrix(K, Kinv);
-            Console.WriteLine(K[0].Count);
-            Console.WriteLine(b.Count);
-
-            Console.WriteLine(T.Count);
+            
 
             math.productMatrixVector(Kinv, b, T);
         }
