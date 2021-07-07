@@ -9,7 +9,72 @@ namespace polygot
 
     using Matrix = List<List<double>>;
 class Utils{
-        public int obtenerDatos(string[] filelines,eLines nlines,int n,eModes mode,item[] item_list,int lineCont){
+        public int obtenerDatosDiritchlet(string[] filelines,eLines nlines,int n,eModes mode,item[] item_list,int lineCont,int dirichx,int dirichy,int dirichz,int nnodes){
+            Console.WriteLine();
+            int nnodes2 = 2 * nnodes; 
+            string[] constants = {};
+            lineCont++;
+            if(nlines==eLines.DOUBLELINE) lineCont++;
+
+            for(int i=0;i<dirichx;i++){
+
+               
+
+                   
+                    constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
+                    int e0; double r0;
+                     
+                    e0 = int.Parse(constants[0]);
+                     Console.WriteLine(e0);
+                    r0 = double.Parse(constants[1]);
+                    item_list[i].setValues((int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    e0,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    r0);
+               
+            }
+            int a = dirichx;
+            int b = dirichy + dirichx;
+            Console.WriteLine();
+            for(int i=a;i<b;i++){
+
+               
+
+                   
+                    constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
+                    int e0; double r0;
+                     
+                    e0 = int.Parse(constants[0]) + nnodes;
+                    r0 = double.Parse(constants[1]);
+                    Console.WriteLine(e0);
+                    item_list[i].setValues((int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    e0,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    r0);
+               
+            }
+                a = b;
+            b = b+dirichz;
+Console.WriteLine();
+                for(int i=a;i<b;i++){
+
+               
+
+                   
+                    constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
+                    int e0; double r0;
+                     
+                    e0 = int.Parse(constants[0]) + nnodes2;
+                     Console.WriteLine(e0);
+                    r0 = double.Parse(constants[1]);
+                    item_list[i].setValues((int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    e0,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,(int)eIndicator.NOTHING,
+                    r0);
+               
+            }
+            
+            return lineCont;
+        }
+
+          public int obtenerDatos(string[] filelines,eLines nlines,int n,eModes mode,item[] item_list,int lineCont){
          string[] constants = {};
             lineCont++;
             if(nlines==eLines.DOUBLELINE) lineCont++;
@@ -119,20 +184,27 @@ class Utils{
 
     
             string[] constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
+            Array.ForEach<string>(constants,Console.WriteLine);
              EI= double.Parse( constants[0]) ;
 
-             f.Add(-24);
-             f.Add(-99);
-             f.Add(-12);
-
+             f.Add(double.Parse( constants[1]));
+             f.Add(double.Parse( constants[2]));
+             f.Add(double.Parse( constants[3]));
+       
             
             
             constants = filelines[lineCont++].Split(new char[] {' ','\t'},StringSplitOptions.RemoveEmptyEntries);
 
             nnodes = int.Parse(constants[0]);
             neltos = int.Parse(constants[1]);
-            ndirich= int.Parse(constants[2]);
-            nneu= int.Parse(constants[3]);
+
+            int dirichx = int.Parse(constants[2]);
+            int dirichy = int.Parse(constants[3]);
+            int dirichz = int.Parse(constants[4]);
+            ndirich= dirichx + dirichy + dirichz;
+
+
+            nneu= int.Parse(constants[5]);
             
             
 
@@ -148,10 +220,10 @@ class Utils{
        
             lineCont = obtenerDatos(filelines,eLines.DOUBLELINE,neltos,eModes.INT_INT_INT_INT_INT,m.getElements(),lineCont);
             lineCont++;
-            lineCont = obtenerDatos(filelines,eLines.DOUBLELINE,ndirich,eModes.INT_FLOAT,m.getDirichlet(),lineCont);
+         //   lineCont = obtenerDatos(filelines,eLines.DOUBLELINE,ndirich,eModes.INT_FLOAT,m.getDirichlet(),lineCont);
+            lineCont = obtenerDatosDiritchlet(filelines,eLines.DOUBLELINE,ndirich,eModes.INT_FLOAT,m.getDirichlet(),lineCont,dirichx,dirichy,dirichz,nnodes);
             lineCont++;
             lineCont = obtenerDatos(filelines,eLines.DOUBLELINE,nneu,eModes.INT_FLOAT,m.getNeumann(),lineCont);
-            
             
           
             correctConditions(ndirich,m.getDirichlet(),m.getDirichletIndices());

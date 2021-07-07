@@ -167,15 +167,7 @@ namespace polygot
 
             double K = -((4.0 * c1 * c2) / 3.0);
 
-            if (i==3)
-            {
-                
-              //    Console.WriteLine((Math.Pow(n4c1 + n3c2, 5.0) / (n3840c2pow3)));
-                  Console.WriteLine($"constants c1 {c1} c2 {c2} ");
-            Console.WriteLine($"x1 {x_1} x2 {x_2} ");
-            Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} K {K} ");
-            }
-          
+
         
       //      Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} K{K} ");
         //    Console.WriteLine();
@@ -190,7 +182,7 @@ namespace polygot
 
             U[8][0] = F; U[8][1] = H; U[8][4] = -C; U[8][6] = -J; U[8][7] = K; U[8][8] = C; U[8][9] = J;
             U[9][0] = F; U[9][1] = H; U[9][4] = -J; U[9][6] = -C; U[9][7] = K; U[9][8] = J; U[9][9] = C;
-            // showMatrix(U);
+
 
 
         }
@@ -208,9 +200,25 @@ namespace polygot
             K = math.MatrixCreate(30, 30);
             fillLocalK(K, U);
 
+            double constant = EI*J;
+            Console.WriteLine(constant);
+            math.productRealMatrix2(constant,K);
+
+          
+
     
+                        if (element==3)
+            {
+                
+              //    Console.WriteLine((Math.Pow(n4c1 + n3c2, 5.0) / (n3840c2pow3)));
+          //        Console.WriteLine($"constants c1 {c1} c2 {c2} ");
+        //    Console.WriteLine($"x1 {x_1} x2 {x_2} ");
+      //      Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} K {K} ");
+           // showMatrix(K);
+            }
 
             return K;
+            
         }
 
         public void fillLocalK(Matrix K, Matrix U)
@@ -305,6 +313,7 @@ namespace polygot
             //a index
             int nnodes = K.Count / 3;
             int nindex = 10;
+            int eid = e.getId();
             int index1 = e.getNode1() - 1;
             int index2 = e.getNode2() - 1;
             int index3 = e.getNode3() - 1;
@@ -349,7 +358,8 @@ namespace polygot
                 for (int j = 0; j < localK.Count; j++)
                 {
                     int krow = indexs[i];
-                    int kcol = indexs[j];
+                    int kcol = indexs[j];                  
+                        
                     K[krow][kcol] += localK[i][j];
 
                 }
@@ -468,27 +478,29 @@ namespace polygot
                 }   
             }
 
-           
-        
             A= A.Inverse();
+
+          
+            Console.WriteLine("Iniciando calculo de respuesta...\n");
+            //Matrix Kinv = new Matrix();
+            Matrix Kinv = math.MatrixCreate(K.Count,K.Count);
+
              for (int i = 0; i < K.Count; i++)
             {
                 for (int j = 0; j < K.Count; j++)
                 {
-
-                  // Console.Write(A[i,j]);
+                    //Console.Write( K[i][j]);
+                    Kinv[i][j] = A[i,j] ;
                 }   
             }
-            Console.WriteLine("Iniciando calculo de respuesta...\n");
-            Matrix Kinv = new Matrix();
             //  Matrix Kinv2 = new Matrix();
             Console.Write("Calculo de la inversa\n");
 
 
             Console.WriteLine();
-            test2 test = new test2();
+    
           //  Kinv = test.MatrixInverse(K);
-            math.inverseMatrix(K, Kinv);
+         //   math.inverseMatrix(K, Kinv);
             Console.WriteLine(K[0].Count);
                Console.WriteLine(b.Count);
 

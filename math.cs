@@ -59,7 +59,7 @@ namespace polygot
 
    public     void productMatrixVector(Matrix A, List<double>  v, List<double>  R){
             for(int f=0;f<A.Count;f++){
-                double cell = 0.0F;
+                double cell = 0.0;
                 for(int c=0;c<v.Count;c++){
                     cell += A[f][c]*v[c];
                 }

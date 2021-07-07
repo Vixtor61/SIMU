@@ -11,7 +11,7 @@ namespace polygot
             Utils utils =  new Utils();
             sel sel = new sel();
             math math = new math();
-            test s =  new test();
+   
           
 
             string filename =  args[0] ?? "test.dat" ;
@@ -34,14 +34,11 @@ namespace polygot
           K =math.MatrixCreate(3*nnodes,3*nnodes);
           
           sel.ensamblaje(m,localKs,localbs,K,b);
-        //  sel.showMatrix(K);
-
-          
+      //    sel.showKs(localKs);
+             //  sel.showMatrix(K);
            sel.applyNeumann(m,b);
-           sel.applyDirichlet(m,K,b);
-            Console.WriteLine("sfasdfs");
-            Console.WriteLine(K.Count);
-            Console.WriteLine(b.Count);
+      //     sel.applyDirichlet(m,K,b);
+          //   sel.showKs(localKs);
 //            sel.showMatrix(b);
 
             for (int i = 0; i < b.Count; i++)
