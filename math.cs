@@ -88,6 +88,7 @@ namespace polygot
         }
         public double determinant(Matrix M)
         {
+            return 5.0;
             if (M.Count == 1) return M[0][0];
             else
             {
@@ -107,7 +108,7 @@ namespace polygot
 
         public void cofactors(Matrix M, Matrix Cof)
         {
-            zeroes(Cof, M.Count);
+            Cof = MatrixCreate(M.Count,M.Count);
             for (int i = 0; i < M.Count; i++)
             {
                 for (int j = 0; j < M[0].Count; j++)

@@ -446,8 +446,6 @@ namespace polygot
             A = A.Inverse();
 
 
-         
-            //Matrix Kinv = new Matrix();
             Matrix Kinv = math.MatrixCreate(K.Count, K.Count);
 
             for (int i = 0; i < K.Count; i++)
@@ -464,7 +462,7 @@ namespace polygot
 
             Console.WriteLine();
 
-            //   math.inverseMatrix(K, Kinv);
+      //      math.inverseMatrix(K, Kinv);
 
 
             math.productMatrixVector(Kinv, b, T);
