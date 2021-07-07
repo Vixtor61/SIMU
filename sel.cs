@@ -11,7 +11,6 @@ namespace polygot
         math math = new math();
         public void showMatrix(Matrix K)
         {
-
             for (int i = 0; i < K.Count; i++)
             {
                 Console.Write("[");
@@ -56,16 +55,13 @@ namespace polygot
                 Console.Write("*************************************\n");
             }
         }
-
+            // checks if value is too small wich can cause problems doing mathematical operations
         public void checkDelta(ref double n1, ref double delta)
         {
-
             if ((Math.Abs(n1)) < delta)
             {
                 n1 = delta;
-
             }
-
         }
 
         public void calculateLocalU(int i, Matrix U, mesh m)
@@ -73,7 +69,7 @@ namespace polygot
 
 
             element e = m.getElement(i);
-         
+
             node n1 = m.getNode(e.getNode1() - 1);
             node n2 = m.getNode(e.getNode2() - 1);
             node n3 = m.getNode(e.getNode3() - 1);
@@ -87,21 +83,22 @@ namespace polygot
 
             double delta = 0.0000001;
 
-            double x_1 =  n1.getX();
-            double x_2 =  n2.getX();
-            double x_8 =  n8.getX();
+            double x_1 = n1.getX();
+            double x_2 = n2.getX();
+            double x_8 = n8.getX();
+
             double subn1n2 = x_2 - x_1;
             checkDelta(ref subn1n2, ref delta); // checks if the substraction between n2_x and n1_x is 0
 
             // calculate c1 and c2 using n1_x n2_x n8_x
-         
+
 
             double c1 = (1.0) / (Math.Pow(subn1n2, 2));//c1
             double c2 = ((4.0 * x_1) + (4.0 * x_2) - (8.0 * x_8)) / (subn1n2);//c2
 
 
-            
-            
+
+
             checkDelta(ref c1, ref delta);
             checkDelta(ref c2, ref delta);
 
@@ -131,25 +128,21 @@ namespace polygot
 
             double c1pow2 = Math.Pow(c1, 2);
             double c2pow2 = Math.Pow(c2, 2);
-          
 
-            double A = (-Math.Pow(n4c1 - c2, 4.0) / n192c2pow2) - (Math.Pow(n4c1 - c2, 3.0) / n24c2)  - (Math.Pow(n4c1 - c2, 5.0) / n3840c2pow3 )+ ((Math.Pow(n4c1 + n3c2, 5.0) / (n3840c2pow3)));
-
-
+            //calculate u matrix components
+            double A = (-Math.Pow(n4c1 - c2, 4.0) / n192c2pow2) - (Math.Pow(n4c1 - c2, 3.0) / n24c2) 
+                        - (Math.Pow(n4c1 - c2, 5.0) / n3840c2pow3) + ((Math.Pow(n4c1 + n3c2, 5.0) / (n3840c2pow3)));
 
             double B = -Math.Pow(n4c1 + c2, 4.0) / n192c2pow2 + Math.Pow(n4c1 + c2, 3) / n24c2
-                         + Math.Pow(n4c1 + c2, 5.0) / (n3840c2pow3) - Math.Pow(n4c1 - n3c2, 5.0) / n3840c2pow3
-                         ;
-
-            //C
+                        + Math.Pow(n4c1 + c2, 5.0) / (n3840c2pow3) - Math.Pow(n4c1 - n3c2, 5.0) / n3840c2pow3;
+            
             double C = ((4.0 * Math.Pow(c2, 2)) / 15.0);
 
-            //D
+            
             double D = (Math.Pow(n4c2 - c1, 4) / n192c2pow2) - (Math.Pow(n4c2 - c1, 5.0) / n3840c2pow3)
-                + (Math.Pow(n4c2 + n8c1, 5) / n7680c2pow3) -( (7.0*Math.Pow(n4c2 - n8c1, 5) )/ n7680c2pow3)
-                 + Math.Pow(-n8c1, 5) / n768c2pow3 - (c1 * Math.Pow(n4c2 - n8c1, 4)) / n96c2pow3
-                + ((2.0 * c1 - 1.0) * Math.Pow((-n8c1), 4)) / n192c2pow3
-                ;
+                        + (Math.Pow(n4c2 + n8c1, 5) / n7680c2pow3) - ((7.0 * Math.Pow(n4c2 - n8c1, 5)) / n7680c2pow3)
+                        + Math.Pow(-n8c1, 5) / n768c2pow3 - (c1 * Math.Pow(n4c2 - n8c1, 4)) / n96c2pow3
+                        + ((2.0 * c1 - 1.0) * Math.Pow((-n8c1), 4)) / n192c2pow3;
 
             double E = ((8.0 * c1pow2) / 3.0) + (c2pow2 / 30.0);
 
@@ -159,7 +152,7 @@ namespace polygot
 
             double H = ((2.0 * c1 * c2) / (3.0)) + (c2pow2 / 30.0);
 
-            double I = -((16.0 * c1pow2) / 3.0)  -((2.0 * c2pow2) / 3.0);
+            double I = -((16.0 * c1pow2) / 3.0) - ((2.0 * c2pow2) / 3.0);
 
             double J = (2.0 * c2pow2) / 15.0;
 
@@ -168,9 +161,10 @@ namespace polygot
             double K = -((4.0 * c1 * c2) / 3.0);
 
 
-        
-      //      Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} K{K} ");
-        //    Console.WriteLine();
+
+            //    Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} K{K} ");//check matrix values
+            //    Console.WriteLine();
+            //    u matrix
             U[0][0] = A; U[0][1] = E; U[0][4] = -F; U[0][6] = -F; U[0][7] = G; U[0][8] = F; U[0][9] = F;
             U[1][0] = E; U[1][1] = B; U[1][4] = -H; U[1][6] = -H; U[1][7] = I; U[1][8] = H; U[1][9] = H;
 
@@ -190,7 +184,7 @@ namespace polygot
 
         public Matrix createLocalK(int element, mesh m, double J)
         {
-    
+
             double EI = m.getEI();
             Matrix K = new Matrix();
             Matrix U = new Matrix();
@@ -200,47 +194,35 @@ namespace polygot
             K = math.MatrixCreate(30, 30);
             fillLocalK(K, U);
 
-            double constant = EI*J;
+            double constant = EI * J;
             Console.WriteLine(constant);
-            math.productRealMatrix2(constant,K);
-
-          
-
-    
-                        if (element==3)
-            {
-                
-              //    Console.WriteLine((Math.Pow(n4c1 + n3c2, 5.0) / (n3840c2pow3)));
-          //        Console.WriteLine($"constants c1 {c1} c2 {c2} ");
-        //    Console.WriteLine($"x1 {x_1} x2 {x_2} ");
-      //      Console.WriteLine($"A {A} B {B} C {C} D {D} E {E} F {F} G {G} H {H} I {I} J {J} K {K} ");
-           // showMatrix(K);
-            }
+            math.productRealMatrix2(constant, K);
 
             return K;
-            
+
         }
 
+        //puts u inside the final local k matrix
         public void fillLocalK(Matrix K, Matrix U)
         {
 
             int Usize = U.Count;
             int Usizex2 = 2 * U.Count;
-  
+
             for (int i = 0; i < Usize; i++)
             {
                 for (int j = 0; j < Usize; j++)
                 {
                     //Console.WriteLine($"{i} {j}       {i + Usize} {j+Usizex2}       {i}{j+Usizex2}");
-                    
+
                     K[i][j] = U[i][j];
-                    K[i + Usize][j+Usize] = U[i][j];
-                    K[i + Usizex2][j+ Usizex2] = U[i][j];
-    
+                    K[i + Usize][j + Usize] = U[i][j];
+                    K[i + Usizex2][j + Usizex2] = U[i][j];
+
 
                 }
             }
-     
+
         }
 
         public double calculateLocalJ(int ind, mesh m)
@@ -272,7 +254,6 @@ namespace polygot
 
             List<double> t = new List<double>();
 
-
             // Q 4.5
             M[0][0] = 59.0; M[10][1] = 59.0; M[20][2] = 59.0;
             M[1][0] = -1.0; M[11][1] = -1.0; M[21][2] = -1.0;
@@ -285,13 +266,14 @@ namespace polygot
             M[8][0] = 4.0; M[18][1] = 4.0; M[28][2] = 4.0;
             M[9][0] = 4.0; M[19][1] = 4.0; M[29][2] = 4.0;
 
-
             math.productMatrixVector(M, m.getF(), b);
             double c = J / 120.0;
+
             for (int i = 0; i < b.Count; i++)
             {
                 b[i] = c * b[i];
             }
+
             return b;
         }
 
@@ -299,11 +281,9 @@ namespace polygot
         {
             for (int i = 0; i < m.getSize((int)eSizes.ELEMENTS); i++)
             {
-
                 double J = calculateLocalJ(i, m);
                 localKs.Add(createLocalK(i, m, J));
                 localbs.Add(createLocalb(i, m, J));
-
             }
         }
 
@@ -348,9 +328,9 @@ namespace polygot
 
             for (int i = 0; i < 30; i++)
             {
-             //   Console.Write($"{indexs[i]} ");
+                //   Console.Write($"{indexs[i]} ");
             }
-          //  Console.WriteLine();
+            //  Console.WriteLine();
 
 
             for (int i = 0; i < localK.Count; i++)
@@ -358,8 +338,8 @@ namespace polygot
                 for (int j = 0; j < localK.Count; j++)
                 {
                     int krow = indexs[i];
-                    int kcol = indexs[j];                  
-                        
+                    int kcol = indexs[j];
+
                     K[krow][kcol] += localK[i][j];
 
                 }
@@ -446,14 +426,11 @@ namespace polygot
 
             for (int i = 0; i < m.getSize((int)eSizes.DIRICHLET); i++)
             {
-
                 condition c = m.getCondition(i, (int)eSizes.DIRICHLET);
                 int index = c.getNode1() - 1;
 
-
                 K.Remove(K[0 + index]);
                 b.Remove(b[0 + index]);
-
 
                 for (int row = 0; row < K.Count; row++)
                 {
@@ -468,41 +445,41 @@ namespace polygot
         public void calculate(Matrix K, List<double> b, List<double> T)
         {
 
-            Matrix<double> A = DenseMatrix.OfArray(new double[K.Count,K.Count]);
+            Matrix<double> A = DenseMatrix.OfArray(new double[K.Count, K.Count]);
             for (int i = 0; i < K.Count; i++)
             {
                 for (int j = 0; j < K.Count; j++)
                 {
                     //Console.Write( K[i][j]);
-                    A[i,j] = K[i][j];
-                }   
+                    A[i, j] = K[i][j];
+                }
             }
 
-            A= A.Inverse();
+            A = A.Inverse();
 
-          
+
             Console.WriteLine("Iniciando calculo de respuesta...\n");
             //Matrix Kinv = new Matrix();
-            Matrix Kinv = math.MatrixCreate(K.Count,K.Count);
+            Matrix Kinv = math.MatrixCreate(K.Count, K.Count);
 
-             for (int i = 0; i < K.Count; i++)
+            for (int i = 0; i < K.Count; i++)
             {
                 for (int j = 0; j < K.Count; j++)
                 {
                     //Console.Write( K[i][j]);
-                    Kinv[i][j] = A[i,j] ;
-                }   
+                    Kinv[i][j] = A[i, j];
+                }
             }
             //  Matrix Kinv2 = new Matrix();
             Console.Write("Calculo de la inversa\n");
 
 
             Console.WriteLine();
-    
-          //  Kinv = test.MatrixInverse(K);
-         //   math.inverseMatrix(K, Kinv);
+
+            //   Kinv = test.MatrixInverse(K);
+            //   math.inverseMatrix(K, Kinv);
             Console.WriteLine(K[0].Count);
-               Console.WriteLine(b.Count);
+            Console.WriteLine(b.Count);
 
             Console.WriteLine(T.Count);
 
