@@ -433,7 +433,7 @@ namespace polygot
 
         public void calculate(Matrix K, List<double> b, List<double> T)
         {
-
+            Console.WriteLine("Iniciando calculo de respuesta...\n");
             Matrix<double> A = DenseMatrix.OfArray(new double[K.Count, K.Count]);
             for (int i = 0; i < K.Count; i++)
             {
@@ -442,11 +442,11 @@ namespace polygot
                     A[i, j] = K[i][j];
                 }
             }
-
+            Console.Write("Calculo de la inversa\n");
             A = A.Inverse();
 
 
-            Console.WriteLine("Iniciando calculo de respuesta...\n");
+         
             //Matrix Kinv = new Matrix();
             Matrix Kinv = math.MatrixCreate(K.Count, K.Count);
 
@@ -459,14 +459,13 @@ namespace polygot
                 }
             }
          
-            Console.Write("Calculo de la inversa\n");
+ 
 
 
             Console.WriteLine();
 
-            //   Kinv = test.MatrixInverse(K);
             //   math.inverseMatrix(K, Kinv);
-            
+
 
             math.productMatrixVector(Kinv, b, T);
         }
