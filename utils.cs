@@ -150,7 +150,7 @@ namespace polygot
             String[] filelines;
             filelines = File.ReadAllLines(filename);
             int lineCont = 0;//keeps track of the current line inside the file
-            double EI, Q;
+            double EI;
             List<double> f = new List<double>();
             int nnodes, neltos, ndirich, nneu;
 
